@@ -23,12 +23,19 @@ flutter:
     - assets/
 
   fonts:
-    - family: InstagramSans
+    - family: Suite
       fonts:
-        - asset: assets/fonts/instagram_sans.ttf
-        - asset: assets/fonts/instagram_sans_bold.ttf
-          weight: 700
-        - asset: assets/fonts/instagram_sans_light.ttf
+        - asset: assets/fonts/SUITE-Light.ttf
           weight: 300
-        - asset: assets/fonts/instagram_sans_medium.ttf
+        - asset: assets/fonts/SUITE-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SUITE-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/SUITE-SemiBold.ttf
           weight: 600
+        - asset: assets/fonts/SUITE-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/SUITE-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/SUITE-Heavy.ttf
+          weight: 900
