@@ -7,11 +7,11 @@ class Interval {
   final int breakSecond;
 
   const Interval({
-    required this.readySecond,
-    required this.cycleCount,
-    required this.cycleBreakSecond,
-    required this.roundCount,
-    required this.exerciseSecond,
-    required this.breakSecond,
+    this.readySecond = 0,
+    this.cycleCount = 0,
+    this.cycleBreakSecond = 0,
+    this.roundCount = 0,
+    this.exerciseSecond = 0,
+    this.breakSecond = 0,
   });
 }
