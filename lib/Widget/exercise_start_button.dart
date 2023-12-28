@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:interval_timer/view_model/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 class ExerciseStartButton extends StatelessWidget {
   const ExerciseStartButton({super.key});
@@ -44,15 +46,19 @@ class ExerciseStartButton extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(
-                '12:40',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24.sp,
-                  fontFamily: 'Suite',
-                  fontWeight: FontWeight.w500,
-                ),
+              Consumer<HomeViewModel>(
+                builder: (context, viewModel, child) {
+                  return Text(
+                    viewModel.totalMinuteSeconds,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24.sp,
+                      fontFamily: 'Suite',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
+                },
               ),
             ],
           ),
