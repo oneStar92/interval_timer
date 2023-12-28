@@ -21,6 +21,7 @@ class HomeScreen extends StatelessWidget {
           fontWeight: FontWeight.w900,
           color: Colors.white,
         ),
+        centerTitle: false,
         backgroundColor: Colors.transparent,
         scrolledUnderElevation: 0,
       ),
