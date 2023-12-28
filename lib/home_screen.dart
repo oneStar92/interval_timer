@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:interval_timer/view_model/home_view_model.dart';
 import 'package:interval_timer/Widget/exercise_start_button.dart';
-import 'package:interval_timer/Tabata_list_item_view.dart';
+import 'package:interval_timer/tabata_elements_list_item_view.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
