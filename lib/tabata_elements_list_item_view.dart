@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:interval_timer/view_model/home_view_model.dart';
+import 'package:interval_timer/view_model/list_item_view_model.dart';
+import 'package:provider/provider.dart';
 
-class IntervalListItem extends StatelessWidget {
-  const IntervalListItem({super.key});
+class TabataElementsListItemView extends StatelessWidget {
+  final ListItemViewModel viewModel;
+
+  const TabataElementsListItemView({
+    super.key,
+    required this.viewModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +25,20 @@ class IntervalListItem extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                '준비',
+                viewModel.element.theme.title,
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: const Color(0xFFFFE812),
-                  fontSize: 26.sp,
+                  color: Color(viewModel.element.theme.color),
+                  fontSize: 18.sp,
                   fontFamily: 'Suite',
                   fontWeight: FontWeight.w800,
                 ),
               ),
             ),
             GestureDetector(
-              onTap: null,
+              onTap: () {
+                context.read<HomeViewModel>().decrease(element: viewModel.element);
+              },
               child: SizedBox(
                 height: 20.w,
                 width: 20.w,
@@ -39,18 +49,24 @@ class IntervalListItem extends StatelessWidget {
             ),
             Padding(
               padding: REdgeInsets.symmetric(horizontal: 6),
-              child: Text(
-                '00:00',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 40.sp,
-                  fontFamily: 'Suite',
-                  fontWeight: FontWeight.w800,
-                ),
+              child: Consumer<HomeViewModel>(
+                builder: (context, viewModel, child) {
+                  return Text(
+                    viewModel.getValue(element: this.viewModel.element),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 40.sp,
+                      fontFamily: 'Suite',
+                      fontWeight: FontWeight.w800,
+                    ),
+                  );
+                },
               ),
             ),
             GestureDetector(
-              onTap: null,
+              onTap: () {
+                context.read<HomeViewModel>().increase(element: viewModel.element);
+              },
               child: SizedBox(
                 height: 20.w,
                 width: 20.w,
