@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:interval_timer/view_model/home_view_model.dart';
+import 'package:interval_timer/presentation/home/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ExerciseStartButton extends StatelessWidget {
