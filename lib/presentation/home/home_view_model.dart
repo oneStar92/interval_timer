@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:interval_timer/Model/tabata_element.dart';
-import 'package:interval_timer/Util/int_convert_minute_seconds.dart';
+import 'package:interval_timer/presentation/extension/int_convert_minute_seconds.dart';
 import 'package:interval_timer/presentation/home/list_item_view_model.dart';
+import 'package:interval_timer/presentation/model/tabata_element.dart';
 
 final class HomeViewModel with ChangeNotifier {
   int _preparationSeconds;
