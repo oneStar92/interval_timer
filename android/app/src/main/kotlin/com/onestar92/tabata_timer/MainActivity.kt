@@ -1,4 +1,4 @@
-package com.onestar92.interval_timer
+package com.onestar92.tabata_timer
 
 import io.flutter.embedding.android.FlutterActivity
 

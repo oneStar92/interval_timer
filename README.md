@@ -1,6 +1,6 @@
-# interval_timer
+# tabata_timer
 
-Interval Timer Flutter Project
+Tabata Timer Flutter Project
 
 ## Getting Started
 
