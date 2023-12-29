@@ -1,138 +1,112 @@
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/presentation/extension/int_convert_minute_seconds.dart';
+import 'package:tabata_timer/presentation/model/tabata.dart';
 import 'package:tabata_timer/presentation/model/tabata_element.dart';
+import 'package:tabata_timer/repository/shared_preferences_repository.dart';
 
 final class HomeViewModel with ChangeNotifier {
-  int _preparationSeconds = minimum;
-  int _cycleCount = minimum;
-  int _cycleBreakSeconds = minimum;
-  int _roundCount = minimum;
-  int _exerciseSeconds = minimum;
-  int _breakSeconds = minimum;
+  final _repository = DefaultSharedPreferencesRepository();
+  final _tabata = Tabata();
 
   HomeViewModel() {
     loadAll();
   }
 
   String get totalMinuteSeconds {
-    final roundSeconds = _exerciseSeconds + _breakSeconds;
-    final totalRoundSeconds = roundSeconds * _roundCount;
-    final cycleSeconds = totalRoundSeconds + _cycleBreakSeconds;
-    final totalCycleSeconds = cycleSeconds * _cycleCount;
-    return (_preparationSeconds + totalCycleSeconds).convertMinuteSeconds();
+    final roundSeconds = _tabata.exerciseSeconds + _tabata.breakSeconds;
+    final totalRoundSeconds = roundSeconds * _tabata.roundCount;
+    final cycleSeconds = totalRoundSeconds + _tabata.cycleBreakSeconds;
+    final totalCycleSeconds = cycleSeconds * _tabata.cycleCount;
+    return (_tabata.preparationSeconds + totalCycleSeconds).convertMinuteSeconds();
   }
 
   String getValue({required TabataElement element}) {
     switch (element) {
       case TabataElement.preparationSeconds:
-        return _preparationSeconds.convertMinuteSeconds();
+        return _tabata.preparationSeconds.convertMinuteSeconds();
       case TabataElement.cycleCount:
-        return '$_cycleCount';
+        return '${_tabata.cycleCount}';
       case TabataElement.cycleBreakSeconds:
-        return _cycleBreakSeconds.convertMinuteSeconds();
+        return _tabata.cycleBreakSeconds.convertMinuteSeconds();
       case TabataElement.roundCount:
-        return '$_roundCount';
+        return '${_tabata.roundCount}';
       case TabataElement.exerciseSeconds:
-        return _exerciseSeconds.convertMinuteSeconds();
+        return _tabata.exerciseSeconds.convertMinuteSeconds();
       case TabataElement.breakSeconds:
-        return _breakSeconds.convertMinuteSeconds();
+        return _tabata.breakSeconds.convertMinuteSeconds();
     }
   }
 
-  void increase({required TabataElement element, int value = 1}) {
+  void increase({required TabataElement element}) {
     switch (element) {
       case TabataElement.preparationSeconds:
-        if (_preparationSeconds == maximumTime) return;
-        _preparationSeconds += value;
+        _tabata.preparationSeconds += 1;
         break;
       case TabataElement.cycleCount:
-        if (_cycleCount == maximumCount) return;
-        _cycleCount += value;
+        _tabata.cycleCount += 1;
         break;
       case TabataElement.cycleBreakSeconds:
-        if (_cycleBreakSeconds == maximumTime) return;
-        _cycleBreakSeconds += value;
+        _tabata.cycleBreakSeconds += 1;
         break;
       case TabataElement.roundCount:
-        if (_roundCount == maximumCount) return;
-        _roundCount += value;
+        _tabata.roundCount += 1;
         break;
       case TabataElement.exerciseSeconds:
-        if (_exerciseSeconds == maximumTime) return;
-        _exerciseSeconds += value;
+        _tabata.exerciseSeconds += 1;
         break;
       case TabataElement.breakSeconds:
-        if (_breakSeconds == maximumTime) return;
-        _breakSeconds += value;
+        _tabata.breakSeconds += 1;
         break;
     }
-    saveData(element: element);
+    save(element: element);
     notifyListeners();
   }
 
-  void decrease({required TabataElement element, int value = 1}) {
+  void decrease({required TabataElement element}) {
     switch (element) {
       case TabataElement.preparationSeconds:
-        if (_preparationSeconds == minimum) return;
-        _preparationSeconds -= value;
+        _tabata.preparationSeconds -= 1;
         break;
       case TabataElement.cycleCount:
-        if (_cycleCount == minimum) return;
-        _cycleCount -= value;
+        _tabata.cycleCount -= 1;
         break;
       case TabataElement.cycleBreakSeconds:
-        if (_cycleBreakSeconds == minimum) return;
-        _cycleBreakSeconds -= value;
+        _tabata.cycleBreakSeconds -= 1;
         break;
       case TabataElement.roundCount:
-        if (_roundCount == minimum) return;
-        _roundCount -= value;
+        _tabata.roundCount -= 1;
         break;
       case TabataElement.exerciseSeconds:
-        if (_exerciseSeconds == minimum) return;
-        _exerciseSeconds -= value;
+        _tabata.exerciseSeconds -= 1;
         break;
       case TabataElement.breakSeconds:
-        if (_breakSeconds == minimum) return;
-        _breakSeconds -= value;
+        _tabata.breakSeconds -= 1;
         break;
     }
-    saveData(element: element);
+    save(element: element);
     notifyListeners();
   }
 
   Future<void> loadAll() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    _preparationSeconds = prefs.getInt(preparationSecondsKey) ?? minimum;
-    _roundCount = prefs.getInt(roundCountKey) ?? minimum;
-    _exerciseSeconds = prefs.getInt(exerciseSecondsKey) ?? minimum;
-    _breakSeconds = prefs.getInt(breakSecondsKey) ?? minimum;
-    _cycleCount = prefs.getInt(cycleCountKey) ?? minimum;
-    _cycleBreakSeconds = prefs.getInt(cycleBreakSecondsKey) ?? minimum;
+    final result = await _repository.loadAll();
+    _tabata.updateValueFromMap(result);
     notifyListeners();
   }
 
-  void saveData({required TabataElement element}) {
+  void save({required TabataElement element}) {
     switch (element) {
       case TabataElement.preparationSeconds:
-        save(key: element.key, value: _preparationSeconds);
+        _repository.save(element.key, _tabata.preparationSeconds);
       case TabataElement.cycleCount:
-        save(key: element.key, value: _cycleCount);
+        _repository.save(element.key, _tabata.cycleCount);
       case TabataElement.cycleBreakSeconds:
-        save(key: element.key, value: _cycleBreakSeconds);
+        _repository.save(element.key, _tabata.cycleBreakSeconds);
       case TabataElement.roundCount:
-        save(key: element.key, value: _roundCount);
+        _repository.save(element.key, _tabata.roundCount);
       case TabataElement.exerciseSeconds:
-        save(key: element.key, value: _exerciseSeconds);
+        _repository.save(element.key, _tabata.exerciseSeconds);
       case TabataElement.breakSeconds:
-        save(key: element.key, value: _breakSeconds);
+        _repository.save(element.key, _tabata.breakSeconds);
     }
-  }
-
-  Future<void> save({required String key, required int value}) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(key, value);
   }
 }
