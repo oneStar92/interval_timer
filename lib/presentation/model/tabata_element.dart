@@ -1,14 +1,46 @@
+import 'package:tabata_timer/common/constants.dart';
+
 typedef TabataTheme = ({String title, int color});
 
 enum TabataElement {
-  preparationSeconds((title: '준비', color: 0xFFFFE812)),
-  cycleCount((title: '사이클', color: 0xFF000000)),
-  cycleBreakSeconds((title: '사이클 휴식', color: 0xFFFBBC04)),
-  roundCount((title: '라운드', color: 0xFF000000)),
-  exerciseSeconds((title: '운동', color: 0xFF34A853)),
-  breakSeconds((title: '휴식', color: 0xFFEA4335));
+  preparationSeconds,
+  cycleCount,
+  cycleBreakSeconds,
+  roundCount,
+  exerciseSeconds,
+  breakSeconds;
 
-  final TabataTheme theme;
+  TabataTheme get theme {
+    switch (this) {
+      case TabataElement.preparationSeconds:
+        return (title: preparationSecondsTitle, color: yellowColor);
+      case TabataElement.cycleCount:
+        return (title: cycleCountTitle, color: blackColor);
+      case TabataElement.cycleBreakSeconds:
+        return (title: cycleBreakSecondsTitle, color: orangeColor);
+      case TabataElement.roundCount:
+        return (title: roundCountTitle, color: blackColor);
+      case TabataElement.exerciseSeconds:
+        return (title: exerciseSecondsTitle, color: greenColor);
+      case TabataElement.breakSeconds:
+        return (title: breakSecondsTitle, color: redColor);
+    }
+  }
 
-  const TabataElement(this.theme);
+  String get key {
+    switch (this) {
+      case TabataElement.preparationSeconds:
+        return preparationSecondsKey;
+      case TabataElement.cycleCount:
+        return cycleCountKey;
+      case TabataElement.cycleBreakSeconds:
+        return cycleBreakSecondsKey;
+      case TabataElement.roundCount:
+        return roundCountKey;
+      case TabataElement.exerciseSeconds:
+        return exerciseSecondsKey;
+      case TabataElement.breakSeconds:
+        return breakSecondsKey;
+    }
+  }
 }
