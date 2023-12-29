@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/presentation/extension/int_convert_minute_seconds.dart';
 import 'package:tabata_timer/presentation/home/list_item_view_model.dart';
@@ -18,6 +19,7 @@ final class HomeViewModel with ChangeNotifier {
   ];
 
   HomeViewModel() {
+    loadAll();
   }
 
   int get sectionCount => _listElementGroupedBySection.length;
@@ -81,6 +83,7 @@ final class HomeViewModel with ChangeNotifier {
         _breakSeconds += value;
         break;
     }
+    saveData(element: element);
     notifyListeners();
   }
 
@@ -111,6 +114,40 @@ final class HomeViewModel with ChangeNotifier {
         _breakSeconds -= value;
         break;
     }
+    saveData(element: element);
     notifyListeners();
+  }
+
+  Future<void> loadAll() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    _preparationSeconds = prefs.getInt(preparationSecondsKey) ?? 1;
+    _roundCount = prefs.getInt(roundCountKey) ?? 1;
+    _exerciseSeconds = prefs.getInt(exerciseSecondsKey) ?? 1;
+    _breakSeconds = prefs.getInt(breakSecondsKey) ?? 1;
+    _cycleCount = prefs.getInt(cycleCountKey) ?? 1;
+    _cycleBreakSeconds = prefs.getInt(cycleBreakSecondsKey) ?? 1;
+    notifyListeners();
+  }
+
+  void saveData({required TabataElement element}) {
+    switch (element) {
+      case TabataElement.preparationSeconds:
+        save(key: element.key, value: _preparationSeconds);
+      case TabataElement.cycleCount:
+        save(key: element.key, value: _cycleCount);
+      case TabataElement.cycleBreakSeconds:
+        save(key: element.key, value: _cycleBreakSeconds);
+      case TabataElement.roundCount:
+        save(key: element.key, value: _roundCount);
+      case TabataElement.exerciseSeconds:
+        save(key: element.key, value: _exerciseSeconds);
+      case TabataElement.breakSeconds:
+        save(key: element.key, value: _breakSeconds);
+    }
+  }
+
+  Future<void> save({required String key, required int value}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(key, value);
   }
 }
