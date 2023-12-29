@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/presentation/home/component/exercise_start_button.dart';
 import 'package:tabata_timer/presentation/home/component/tabata_elements_list_item_view.dart';
 import 'package:tabata_timer/presentation/home/home_view_model.dart';
@@ -13,7 +14,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('인터벌'),
+        title: const Text(appTitle),
         titleSpacing: 16.0.h,
         titleTextStyle: TextStyle(
           fontSize: 40.sp,
