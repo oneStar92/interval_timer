@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: REdgeInsets.all(8.0),
           child: ListView.builder(
             itemCount: context.read<HomeViewModel>().sectionCount + 1,
             itemBuilder: (context, section) {
