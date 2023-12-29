@@ -1,35 +1,24 @@
-import 'dart:math';
 import 'package:flutter/foundation.dart';
+import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/presentation/extension/int_convert_minute_seconds.dart';
 import 'package:tabata_timer/presentation/home/list_item_view_model.dart';
 import 'package:tabata_timer/presentation/model/tabata_element.dart';
 
 final class HomeViewModel with ChangeNotifier {
-  int _preparationSeconds;
-  int _cycleCount;
-  int _cycleBreakSeconds;
-  int _roundCount;
-  int _exerciseSeconds;
-  int _breakSeconds;
+  int _preparationSeconds = minimum;
+  int _cycleCount = minimum;
+  int _cycleBreakSeconds = minimum;
+  int _roundCount = minimum;
+  int _exerciseSeconds = minimum;
+  int _breakSeconds = minimum;
   final List<List<TabataElement>> _listElementGroupedBySection = [
     [TabataElement.preparationSeconds],
     [TabataElement.roundCount, TabataElement.exerciseSeconds, TabataElement.breakSeconds],
     [TabataElement.cycleCount, TabataElement.cycleBreakSeconds],
   ];
 
-  HomeViewModel({
-    int preparationSeconds = 1,
-    int cycleCount = 1,
-    int cycleBreakSeconds = 1,
-    int roundCount = 1,
-    int exerciseSeconds = 1,
-    int breakSeconds = 1,
-  })  : _preparationSeconds = max(1, min(3599, preparationSeconds)),
-        _cycleCount = max(1, min(3599, cycleCount)),
-        _cycleBreakSeconds = max(1, min(3599, cycleBreakSeconds)),
-        _roundCount = max(1, min(3599, roundCount)),
-        _exerciseSeconds = max(1, min(3599, exerciseSeconds)),
-        _breakSeconds = max(1, min(3599, breakSeconds));
+  HomeViewModel() {
+  }
 
   int get sectionCount => _listElementGroupedBySection.length;
 
