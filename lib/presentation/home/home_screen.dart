@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabata_timer/common/constants.dart';
+import 'package:tabata_timer/presentation/di/view_model_provider.dart';
 import 'package:tabata_timer/presentation/home/component/exercise_start_button.dart';
 import 'package:tabata_timer/presentation/home/component/tabata_elements_list_item_view.dart';
-import 'package:tabata_timer/presentation/home/home_view_model.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -30,7 +29,7 @@ class HomeScreen extends StatelessWidget {
         child: Padding(
           padding: REdgeInsets.all(8.0),
           child: ListView.builder(
-            itemCount: context.read<HomeViewModel>().sectionCount + 1,
+            itemCount: sectionCount + 1,
             itemBuilder: (context, section) {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 16.0.w),
@@ -38,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                     ? const ExerciseStartButton()
                     : LayoutBuilder(
                         builder: (context, constraint) {
-                          final rowCount = context.read<HomeViewModel>().countOfRow(section: section - 1);
+                          final rowCount = homeScreenRowsGroupedBySection[section - 1].length;
                           final height = (85.h * rowCount) + (1.0 * (rowCount - 1));
                           return Container(
                             height: height,
@@ -52,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                               itemCount: rowCount,
                               itemBuilder: (context, row) {
                                 return TabataElementsListItemView(
-                                  viewModel: context.read<HomeViewModel>().listItemViewModels[section - 1][row],
+                                  viewModel: listItemViewModels[section - 1][row],
                                 );
                               },
                               separatorBuilder: (_, index) {

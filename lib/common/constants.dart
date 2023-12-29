@@ -1,3 +1,5 @@
+import 'package:tabata_timer/presentation/model/tabata_element.dart';
+
 const int maximumTime = 3600;
 const int minimum = 0;
 const int maximumCount = 100;
@@ -29,3 +31,10 @@ const String cycleBreakSecondsKey = 'cycleBreakSeconds';
 const String roundCountKey = 'roundCount';
 const String exerciseSecondsKey = 'exerciseSeconds';
 const String breakSecondsKey = 'breakSeconds';
+
+const List<List<TabataElement>> homeScreenRowsGroupedBySection = [
+  [TabataElement.preparationSeconds],
+  [TabataElement.roundCount, TabataElement.exerciseSeconds, TabataElement.breakSeconds],
+  [TabataElement.cycleCount, TabataElement.cycleBreakSeconds],
+];
+final int sectionCount = homeScreenRowsGroupedBySection.length;

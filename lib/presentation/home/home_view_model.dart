@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/presentation/extension/int_convert_minute_seconds.dart';
-import 'package:tabata_timer/presentation/home/list_item_view_model.dart';
 import 'package:tabata_timer/presentation/model/tabata_element.dart';
 
 final class HomeViewModel with ChangeNotifier {
@@ -12,21 +11,10 @@ final class HomeViewModel with ChangeNotifier {
   int _roundCount = minimum;
   int _exerciseSeconds = minimum;
   int _breakSeconds = minimum;
-  final List<List<TabataElement>> _listElementGroupedBySection = [
-    [TabataElement.preparationSeconds],
-    [TabataElement.roundCount, TabataElement.exerciseSeconds, TabataElement.breakSeconds],
-    [TabataElement.cycleCount, TabataElement.cycleBreakSeconds],
-  ];
 
   HomeViewModel() {
     loadAll();
   }
-
-  int get sectionCount => _listElementGroupedBySection.length;
-
-  List<List<ListItemViewModel>> get listItemViewModels => _listElementGroupedBySection
-      .map((section) => section.map((row) => ListItemViewModel(element: row)).toList())
-      .toList();
 
   String get totalMinuteSeconds {
     final roundSeconds = _exerciseSeconds + _breakSeconds;
@@ -35,9 +23,6 @@ final class HomeViewModel with ChangeNotifier {
     final totalCycleSeconds = cycleSeconds * _cycleCount;
     return (_preparationSeconds + totalCycleSeconds).convertMinuteSeconds();
   }
-
-  int countOfRow({required int section}) =>
-      section < sectionCount && section >= 0 ? _listElementGroupedBySection[section].length : 0;
 
   String getValue({required TabataElement element}) {
     switch (element) {
