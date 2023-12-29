@@ -44,27 +44,27 @@ final class HomeViewModel with ChangeNotifier {
   void increase({required TabataElement element, int value = 1}) {
     switch (element) {
       case TabataElement.preparationSeconds:
-        if (_preparationSeconds == 3599) return;
+        if (_preparationSeconds == maximumTime) return;
         _preparationSeconds += value;
         break;
       case TabataElement.cycleCount:
-        if (_cycleCount == 99) return;
+        if (_cycleCount == maximumCount) return;
         _cycleCount += value;
         break;
       case TabataElement.cycleBreakSeconds:
-        if (_cycleBreakSeconds == 3599) return;
+        if (_cycleBreakSeconds == maximumTime) return;
         _cycleBreakSeconds += value;
         break;
       case TabataElement.roundCount:
-        if (_roundCount == 99) return;
+        if (_roundCount == maximumCount) return;
         _roundCount += value;
         break;
       case TabataElement.exerciseSeconds:
-        if (_exerciseSeconds == 3599) return;
+        if (_exerciseSeconds == maximumTime) return;
         _exerciseSeconds += value;
         break;
       case TabataElement.breakSeconds:
-        if (_breakSeconds == 3599) return;
+        if (_breakSeconds == maximumTime) return;
         _breakSeconds += value;
         break;
     }
@@ -75,27 +75,27 @@ final class HomeViewModel with ChangeNotifier {
   void decrease({required TabataElement element, int value = 1}) {
     switch (element) {
       case TabataElement.preparationSeconds:
-        if (_preparationSeconds == 1) return;
+        if (_preparationSeconds == minimum) return;
         _preparationSeconds -= value;
         break;
       case TabataElement.cycleCount:
-        if (_cycleCount == 1) return;
+        if (_cycleCount == minimum) return;
         _cycleCount -= value;
         break;
       case TabataElement.cycleBreakSeconds:
-        if (_cycleBreakSeconds == 1) return;
+        if (_cycleBreakSeconds == minimum) return;
         _cycleBreakSeconds -= value;
         break;
       case TabataElement.roundCount:
-        if (_roundCount == 1) return;
+        if (_roundCount == minimum) return;
         _roundCount -= value;
         break;
       case TabataElement.exerciseSeconds:
-        if (_exerciseSeconds == 1) return;
+        if (_exerciseSeconds == minimum) return;
         _exerciseSeconds -= value;
         break;
       case TabataElement.breakSeconds:
-        if (_breakSeconds == 1) return;
+        if (_breakSeconds == minimum) return;
         _breakSeconds -= value;
         break;
     }
@@ -105,12 +105,12 @@ final class HomeViewModel with ChangeNotifier {
 
   Future<void> loadAll() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    _preparationSeconds = prefs.getInt(preparationSecondsKey) ?? 1;
-    _roundCount = prefs.getInt(roundCountKey) ?? 1;
-    _exerciseSeconds = prefs.getInt(exerciseSecondsKey) ?? 1;
-    _breakSeconds = prefs.getInt(breakSecondsKey) ?? 1;
-    _cycleCount = prefs.getInt(cycleCountKey) ?? 1;
-    _cycleBreakSeconds = prefs.getInt(cycleBreakSecondsKey) ?? 1;
+    _preparationSeconds = prefs.getInt(preparationSecondsKey) ?? minimum;
+    _roundCount = prefs.getInt(roundCountKey) ?? minimum;
+    _exerciseSeconds = prefs.getInt(exerciseSecondsKey) ?? minimum;
+    _breakSeconds = prefs.getInt(breakSecondsKey) ?? minimum;
+    _cycleCount = prefs.getInt(cycleCountKey) ?? minimum;
+    _cycleBreakSeconds = prefs.getInt(cycleBreakSecondsKey) ?? minimum;
     notifyListeners();
   }
 
