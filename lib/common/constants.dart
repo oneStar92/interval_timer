@@ -1,5 +1,8 @@
 import 'package:tabata_timer/presentation/model/tabata_element.dart';
 
+typedef Count = ({String current, String max});
+typedef Time = ({String minute, String second});
+
 const int maximumTime = 3599;
 const int minimum = 1;
 const int maximumCount = 99;
@@ -15,13 +18,6 @@ const int defaultBreakSeconds = 10;
 final List<String> countList = List<String>.generate(maximumCount, (index) => '${index + 1}');
 final List<String> minuteList = List<String>.generate(maximumMinute, (index) => '${index + 1}');
 final List<String> secondsList = List<String>.generate(maximumSeconds, (index) => '${index + 1}');
-
-const int blueColor = 0xFF0085FF;
-const int yellowColor = 0xFFFFE812;
-const int greenColor = 0xFF34A853;
-const int redColor = 0xFFEA4335;
-const int orangeColor = 0xFFFBBC04;
-const int blackColor = 0xFF000000;
 
 const String appTitle = '타바타';
 const String exerciseButtonTitle = '운동 시작';
