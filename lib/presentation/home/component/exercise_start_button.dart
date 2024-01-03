@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabata_timer/common/constants.dart';
+import 'package:tabata_timer/common/custom_colors.dart';
 import 'package:tabata_timer/presentation/home/home_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,7 @@ class ExerciseStartButton extends StatelessWidget {
       child: Container(
         height: 60.h,
         decoration: BoxDecoration(
-          color: const Color(blueColor),
+          color: CustomColors.blueColor,
           borderRadius: BorderRadius.circular(10).w,
         ),
         child: Padding(
