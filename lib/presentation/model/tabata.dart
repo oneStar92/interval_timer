@@ -43,7 +43,7 @@ final class Tabata {
   }
 
   set roundCount(int value) {
-    if (value < maximumCount && value > minimum) _roundCount = value;
+    if (value < maximumRoundCount && value > minimum) _roundCount = value;
   }
 
   set cycleBreakSeconds(int value) {
@@ -51,7 +51,7 @@ final class Tabata {
   }
 
   set cycleCount(int value) {
-    if (value < maximumCount && value > minimum) _cycleCount = value;
+    if (value < maximumCycleCount && value > minimum) _cycleCount = value;
   }
 
   set preparationSeconds(int value) {
