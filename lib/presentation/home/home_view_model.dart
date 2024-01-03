@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:tabata_timer/presentation/extension/int_convert_minute_seconds.dart';
+import 'package:tabata_timer/common/constants.dart';
+import 'package:tabata_timer/presentation/extension/int_to_time.dart';
 import 'package:tabata_timer/presentation/model/tabata.dart';
 import 'package:tabata_timer/presentation/model/tabata_element.dart';
 import 'package:tabata_timer/repository/shared_preferences_repository.dart';
@@ -12,28 +13,39 @@ final class HomeViewModel with ChangeNotifier {
     loadAll();
   }
 
-  String get totalMinuteSeconds {
-    final roundSeconds = _tabata.exerciseSeconds + _tabata.breakSeconds;
-    final totalRoundSeconds = roundSeconds * _tabata.roundCount;
-    final cycleSeconds = totalRoundSeconds + _tabata.cycleBreakSeconds;
-    final totalCycleSeconds = cycleSeconds * _tabata.cycleCount;
-    return (_tabata.preparationSeconds + totalCycleSeconds).convertMinuteSeconds();
-  }
+  Time get totalTime => _tabata.totalMinuteSeconds.toTime();
 
-  String getValue({required TabataElement element}) {
+  Time getTimeOf(TabataElement element) {
     switch (element) {
       case TabataElement.preparationTime:
-        return _tabata.preparationSeconds.convertMinuteSeconds();
+        return _tabata.preparationSeconds.toTime();
+      case TabataElement.cycle:
+        throw Exception();
+      case TabataElement.cycleBreakTime:
+        return _tabata.cycleBreakSeconds.toTime();
+      case TabataElement.round:
+        throw Exception();
+      case TabataElement.exerciseTime:
+        return _tabata.exerciseSeconds.toTime();
+      case TabataElement.breakTime:
+        return _tabata.breakSeconds.toTime();
+    }
+  }
+
+  String getCountOf(TabataElement element) {
+    switch (element) {
+      case TabataElement.preparationTime:
+        throw Exception();
       case TabataElement.cycle:
         return '${_tabata.cycleCount}';
       case TabataElement.cycleBreakTime:
-        return _tabata.cycleBreakSeconds.convertMinuteSeconds();
+        throw Exception();
       case TabataElement.round:
         return '${_tabata.roundCount}';
       case TabataElement.exerciseTime:
-        return _tabata.exerciseSeconds.convertMinuteSeconds();
+        throw Exception();
       case TabataElement.breakTime:
-        return _tabata.breakSeconds.convertMinuteSeconds();
+        throw Exception();
     }
   }
 
