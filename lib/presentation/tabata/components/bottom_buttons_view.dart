@@ -33,6 +33,7 @@ class BottomButtonsView<T extends ChangeNotifier> extends StatelessWidget {
               return IconButtonHolder(
                 onClick: isPlay ? actionPause : actionPlay,
                 icon: isPlay ? Icons.pause : Icons.play_arrow,
+                color: Colors.white,
               );
             }
           ),

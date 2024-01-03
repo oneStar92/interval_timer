@@ -30,6 +30,7 @@ final class TopButtonView extends StatelessWidget {
             child: IconButtonHolder(
               onClick: actionCancel,
               icon: Icons.cancel,
+              color: Colors.white,
             ),
           ),
           const Spacer(),
@@ -39,6 +40,7 @@ final class TopButtonView extends StatelessWidget {
             child: IconButtonHolder(
               onClick: actionReset,
               icon: CupertinoIcons.arrow_clockwise_circle_fill,
+              color: Colors.white,
             ),
           ),
         ],
