@@ -10,20 +10,21 @@ enum TabataElement {
   exerciseTime,
   breakTime;
 
-  TabataTheme get theme {
+  @override
+  String toString() {
     switch (this) {
       case TabataElement.preparationTime:
-        return (title: preparationSecondsTitle, color: yellowColor);
+        return preparationSecondsTitle;
       case TabataElement.cycle:
-        return (title: cycleCountTitle, color: blackColor);
+        return cycleCountTitle;
       case TabataElement.cycleBreakTime:
-        return (title: cycleBreakSecondsTitle, color: orangeColor);
+        return cycleBreakSecondsTitle;
       case TabataElement.round:
-        return (title: roundCountTitle, color: blackColor);
+        return roundCountTitle;
       case TabataElement.exerciseTime:
-        return (title: exerciseSecondsTitle, color: greenColor);
+        return exerciseSecondsTitle;
       case TabataElement.breakTime:
-        return (title: breakSecondsTitle, color: redColor);
+        return breakSecondsTitle;
     }
   }
 

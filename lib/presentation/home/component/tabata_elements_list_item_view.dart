@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabata_timer/common/custom_colors.dart';
 import 'package:tabata_timer/presentation/home/home_view_model.dart';
 import 'package:tabata_timer/presentation/home/list_item_view_model.dart';
 import 'package:provider/provider.dart';
@@ -25,10 +26,10 @@ class TabataElementsListItemView extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                viewModel.element.theme.title,
+                viewModel.element.toString(),
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: Color(viewModel.element.theme.color),
+                  color: CustomColors.getColorOf(viewModel.element),
                   fontSize: 18.sp,
                   fontFamily: 'Suite',
                   fontWeight: FontWeight.w800,
