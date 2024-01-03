@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/presentation/abstract/base_view_holder.dart';
 
-enum CounterViewHolderKind {
-  round,
-  cycle;
-
-  String get title => this == CounterViewHolderKind.round ? '라운드' : '사이클';
-}
-
-final class CounterViewHolder extends BaseViewHolder {
-  final CounterViewHolderKind _kind;
+final class CounterViewHolder<T extends ChangeNotifier> extends BaseViewHolder {
+  final String _title;
+  final Count Function(BuildContext, T) _selector;
 
   const CounterViewHolder({
     super.key,
     super.onClick,
-    required CounterViewHolderKind kind,
-  }) : _kind = kind;
+    required String title,
+    required Count Function(BuildContext, T) selector,
+  })  : _title = title,
+        _selector = selector;
 
   @override
   Widget createContent(BuildContext context) {
@@ -24,7 +22,7 @@ final class CounterViewHolder extends BaseViewHolder {
       children: [
         Expanded(
           child: Text(
-            _kind.title,
+            _title,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24.sp,
@@ -34,30 +32,34 @@ final class CounterViewHolder extends BaseViewHolder {
           ),
         ),
         Expanded(
-          child: RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-              style: const TextStyle(fontFamily: 'Suite'),
-              children: [
-                TextSpan(
-                  text: '1',
-                  style: TextStyle(
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.white,
+          child: Selector<T, Count>(
+              selector: _selector,
+              builder: (context, count, child) {
+                return RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: const TextStyle(fontFamily: 'Suite'),
+                    children: [
+                      TextSpan(
+                        text: count.current,
+                        style: TextStyle(
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '/${count.max}',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                TextSpan(
-                  text: '/12',
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          ),
+                );
+              }),
         ),
       ],
     );

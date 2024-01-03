@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:tabata_timer/presentation/tabata/components/icon_button_holder.dart';
 
-class BottomButtonsView extends StatelessWidget {
+class BottomButtonsView<T extends ChangeNotifier> extends StatelessWidget {
+  final bool Function(BuildContext, T) _startButtonSelector;
   final Function()? actionPlay;
+  final Function()? actionPause;
 
   const BottomButtonsView({
     super.key,
     this.actionPlay,
-  });
+    this.actionPause,
+    required bool Function(BuildContext, T) startButtonSelector,
+  }) : _startButtonSelector = startButtonSelector;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +27,14 @@ class BottomButtonsView extends StatelessWidget {
         child: SizedBox(
           height: 80.h,
           width: 80.h,
-          child: IconButtonHolder(
-            onClick: actionPlay,
-            icon: Icons.play_arrow,
+          child: Selector<T, bool>(
+            selector: _startButtonSelector,
+            builder: (_, isPlay, child) {
+              return IconButtonHolder(
+                onClick: isPlay ? actionPause : actionPlay,
+                icon: isPlay ? Icons.pause : Icons.play_arrow,
+              );
+            }
           ),
         ),
       ),
