@@ -39,8 +39,8 @@ const String exerciseSecondsKey = 'exerciseSeconds';
 const String breakSecondsKey = 'breakSeconds';
 
 const List<List<TabataElement>> homeScreenRowsGroupedBySection = [
-  [TabataElement.preparationSeconds],
-  [TabataElement.roundCount, TabataElement.exerciseSeconds, TabataElement.breakSeconds],
-  [TabataElement.cycleCount, TabataElement.cycleBreakSeconds],
+  [TabataElement.preparationTime],
+  [TabataElement.round, TabataElement.exerciseTime, TabataElement.breakTime],
+  [TabataElement.cycle, TabataElement.cycleBreakTime],
 ];
 final int sectionCount = homeScreenRowsGroupedBySection.length;

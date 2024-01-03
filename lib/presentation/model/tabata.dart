@@ -58,6 +58,14 @@ final class Tabata {
     if (value < maximumTime && value > minimum) _preparationSeconds = value;
   }
 
+  int get totalMinuteSeconds {
+    final roundSeconds = _exerciseSeconds + _breakSeconds;
+    final totalRoundSeconds = (roundSeconds * _roundCount) - _breakSeconds;
+    final cycleSeconds = totalRoundSeconds + _cycleBreakSeconds;
+    final totalCycleSeconds = (cycleSeconds * _cycleCount) - _cycleBreakSeconds;
+    return _preparationSeconds + totalCycleSeconds;
+  }
+
   void updateValueFromMap(Map<String, int?> map) {
     _preparationSeconds = map[preparationSecondsKey] ?? _preparationSeconds;
     _cycleBreakSeconds = map[cycleBreakSecondsKey] ?? _cycleBreakSeconds;

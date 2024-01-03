@@ -3,43 +3,43 @@ import 'package:tabata_timer/common/constants.dart';
 typedef TabataTheme = ({String title, int color});
 
 enum TabataElement {
-  preparationSeconds,
-  cycleCount,
-  cycleBreakSeconds,
-  roundCount,
-  exerciseSeconds,
-  breakSeconds;
+  preparationTime,
+  cycle,
+  cycleBreakTime,
+  round,
+  exerciseTime,
+  breakTime;
 
   TabataTheme get theme {
     switch (this) {
-      case TabataElement.preparationSeconds:
+      case TabataElement.preparationTime:
         return (title: preparationSecondsTitle, color: yellowColor);
-      case TabataElement.cycleCount:
+      case TabataElement.cycle:
         return (title: cycleCountTitle, color: blackColor);
-      case TabataElement.cycleBreakSeconds:
+      case TabataElement.cycleBreakTime:
         return (title: cycleBreakSecondsTitle, color: orangeColor);
-      case TabataElement.roundCount:
+      case TabataElement.round:
         return (title: roundCountTitle, color: blackColor);
-      case TabataElement.exerciseSeconds:
+      case TabataElement.exerciseTime:
         return (title: exerciseSecondsTitle, color: greenColor);
-      case TabataElement.breakSeconds:
+      case TabataElement.breakTime:
         return (title: breakSecondsTitle, color: redColor);
     }
   }
 
   String get key {
     switch (this) {
-      case TabataElement.preparationSeconds:
+      case TabataElement.preparationTime:
         return preparationSecondsKey;
-      case TabataElement.cycleCount:
+      case TabataElement.cycle:
         return cycleCountKey;
-      case TabataElement.cycleBreakSeconds:
+      case TabataElement.cycleBreakTime:
         return cycleBreakSecondsKey;
-      case TabataElement.roundCount:
+      case TabataElement.round:
         return roundCountKey;
-      case TabataElement.exerciseSeconds:
+      case TabataElement.exerciseTime:
         return exerciseSecondsKey;
-      case TabataElement.breakSeconds:
+      case TabataElement.breakTime:
         return breakSecondsKey;
     }
   }

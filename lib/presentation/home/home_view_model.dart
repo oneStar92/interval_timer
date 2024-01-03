@@ -22,39 +22,39 @@ final class HomeViewModel with ChangeNotifier {
 
   String getValue({required TabataElement element}) {
     switch (element) {
-      case TabataElement.preparationSeconds:
+      case TabataElement.preparationTime:
         return _tabata.preparationSeconds.convertMinuteSeconds();
-      case TabataElement.cycleCount:
+      case TabataElement.cycle:
         return '${_tabata.cycleCount}';
-      case TabataElement.cycleBreakSeconds:
+      case TabataElement.cycleBreakTime:
         return _tabata.cycleBreakSeconds.convertMinuteSeconds();
-      case TabataElement.roundCount:
+      case TabataElement.round:
         return '${_tabata.roundCount}';
-      case TabataElement.exerciseSeconds:
+      case TabataElement.exerciseTime:
         return _tabata.exerciseSeconds.convertMinuteSeconds();
-      case TabataElement.breakSeconds:
+      case TabataElement.breakTime:
         return _tabata.breakSeconds.convertMinuteSeconds();
     }
   }
 
   void increase({required TabataElement element}) {
     switch (element) {
-      case TabataElement.preparationSeconds:
+      case TabataElement.preparationTime:
         _tabata.preparationSeconds += 1;
         break;
-      case TabataElement.cycleCount:
+      case TabataElement.cycle:
         _tabata.cycleCount += 1;
         break;
-      case TabataElement.cycleBreakSeconds:
+      case TabataElement.cycleBreakTime:
         _tabata.cycleBreakSeconds += 1;
         break;
-      case TabataElement.roundCount:
+      case TabataElement.round:
         _tabata.roundCount += 1;
         break;
-      case TabataElement.exerciseSeconds:
+      case TabataElement.exerciseTime:
         _tabata.exerciseSeconds += 1;
         break;
-      case TabataElement.breakSeconds:
+      case TabataElement.breakTime:
         _tabata.breakSeconds += 1;
         break;
     }
@@ -64,22 +64,22 @@ final class HomeViewModel with ChangeNotifier {
 
   void decrease({required TabataElement element}) {
     switch (element) {
-      case TabataElement.preparationSeconds:
+      case TabataElement.preparationTime:
         _tabata.preparationSeconds -= 1;
         break;
-      case TabataElement.cycleCount:
+      case TabataElement.cycle:
         _tabata.cycleCount -= 1;
         break;
-      case TabataElement.cycleBreakSeconds:
+      case TabataElement.cycleBreakTime:
         _tabata.cycleBreakSeconds -= 1;
         break;
-      case TabataElement.roundCount:
+      case TabataElement.round:
         _tabata.roundCount -= 1;
         break;
-      case TabataElement.exerciseSeconds:
+      case TabataElement.exerciseTime:
         _tabata.exerciseSeconds -= 1;
         break;
-      case TabataElement.breakSeconds:
+      case TabataElement.breakTime:
         _tabata.breakSeconds -= 1;
         break;
     }
@@ -95,17 +95,17 @@ final class HomeViewModel with ChangeNotifier {
 
   void save({required TabataElement element}) {
     switch (element) {
-      case TabataElement.preparationSeconds:
+      case TabataElement.preparationTime:
         _repository.save(element.key, _tabata.preparationSeconds);
-      case TabataElement.cycleCount:
+      case TabataElement.cycle:
         _repository.save(element.key, _tabata.cycleCount);
-      case TabataElement.cycleBreakSeconds:
+      case TabataElement.cycleBreakTime:
         _repository.save(element.key, _tabata.cycleBreakSeconds);
-      case TabataElement.roundCount:
+      case TabataElement.round:
         _repository.save(element.key, _tabata.roundCount);
-      case TabataElement.exerciseSeconds:
+      case TabataElement.exerciseTime:
         _repository.save(element.key, _tabata.exerciseSeconds);
-      case TabataElement.breakSeconds:
+      case TabataElement.breakTime:
         _repository.save(element.key, _tabata.breakSeconds);
     }
   }
