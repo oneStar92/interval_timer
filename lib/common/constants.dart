@@ -5,6 +5,12 @@ const int minimum = 1;
 const int maximumCount = 99;
 const int maximumMinute = 59;
 const int maximumSeconds = 59;
+const int defaultPreparationSeconds = 60;
+const int defaultCycleCount = 3;
+const int defaultCycleBreakSeconds = 30;
+const int defaultRoundCount = 7;
+const int defaultExerciseSeconds = 90;
+const int defaultBreakSeconds = 10;
 
 final List<String> countList = List<String>.generate(maximumCount, (index) => '${index + 1}');
 final List<String> minuteList = List<String>.generate(maximumMinute, (index) => '${index + 1}');

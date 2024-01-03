@@ -9,12 +9,12 @@ final class Tabata {
   int _breakSeconds;
 
   Tabata({
-    int preparationSeconds = minimum,
-    int cycleCount = minimum,
-    int cycleBreakSeconds = minimum,
-    int roundCount = minimum,
-    int exerciseSeconds = minimum,
-    int breakSeconds = minimum,
+    int preparationSeconds = defaultPreparationSeconds,
+    int cycleCount = defaultCycleCount,
+    int cycleBreakSeconds = defaultCycleBreakSeconds,
+    int roundCount = defaultRoundCount,
+    int exerciseSeconds = defaultExerciseSeconds,
+    int breakSeconds = defaultBreakSeconds,
   })  : _preparationSeconds = preparationSeconds,
         _cycleCount = cycleCount,
         _cycleBreakSeconds = cycleBreakSeconds,
