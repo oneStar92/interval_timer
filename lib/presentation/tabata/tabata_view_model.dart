@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:tabata_timer/common/constants.dart';
-import 'package:tabata_timer/presentation/extension/int+.dart';
+import 'package:tabata_timer/presentation/extension/int_to_time.dart';
 import 'package:tabata_timer/presentation/model/tabata.dart';
 import 'package:tabata_timer/presentation/model/tabata_element.dart';
 
@@ -28,10 +28,9 @@ final class TabataViewModel with ChangeNotifier {
 
   TabataElement get currentState => _currentState;
 
-  Time get currentTime =>
-      (minute: _currentStateRemainingTime.toMinute(), second: _currentStateRemainingTime.toSecond());
+  Time get currentTime => _currentStateRemainingTime.toTime();
 
-  Time get remainingTime => (minute: _remainingTime.toMinute(), second: _remainingTime.toSecond());
+  Time get remainingTime => _remainingTime.toTime();
 
   bool get isPlaying => _isPlaying;
 
