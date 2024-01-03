@@ -1,6 +1,6 @@
 import 'package:tabata_timer/presentation/model/tabata_element.dart';
 
-typedef Count = ({String current, String max});
+typedef RemainingCount = ({String current, String max});
 typedef Time = ({String minute, String second});
 
 const int maximumTime = 3599;

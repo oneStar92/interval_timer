@@ -4,15 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/presentation/abstract/base_view_holder.dart';
 
-final class CounterViewHolder<T extends ChangeNotifier> extends BaseViewHolder {
+final class RemainingCounterViewHolder<T extends ChangeNotifier> extends BaseViewHolder {
   final String _title;
-  final Count Function(BuildContext, T) _selector;
+  final RemainingCount Function(BuildContext, T) _selector;
 
-  const CounterViewHolder({
+  const RemainingCounterViewHolder({
     super.key,
     super.onClick,
     required String title,
-    required Count Function(BuildContext, T) selector,
+    required RemainingCount Function(BuildContext, T) selector,
   })  : _title = title,
         _selector = selector;
 
@@ -32,7 +32,7 @@ final class CounterViewHolder<T extends ChangeNotifier> extends BaseViewHolder {
           ),
         ),
         Expanded(
-          child: Selector<T, Count>(
+          child: Selector<T, RemainingCount>(
               selector: _selector,
               builder: (context, count, child) {
                 return RichText(

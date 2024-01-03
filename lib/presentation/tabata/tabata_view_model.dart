@@ -22,9 +22,9 @@ final class TabataViewModel with ChangeNotifier {
         _currentStateRemainingTime = tabata.preparationSeconds,
         _remainingTime = tabata.totalMinuteSeconds;
 
-  Count get round => (current: '$_currentRound', max: '${_tabata.roundCount}');
+  RemainingCount get round => (current: '$_currentRound', max: '${_tabata.roundCount}');
 
-  Count get cycle => (current: '$_currentCycle', max: '${_tabata.cycleCount}');
+  RemainingCount get cycle => (current: '$_currentCycle', max: '${_tabata.cycleCount}');
 
   TabataElement get currentState => _currentState;
 

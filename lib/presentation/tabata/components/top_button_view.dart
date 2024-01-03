@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabata_timer/presentation/tabata/components/icon_button_holder.dart';
+import 'package:tabata_timer/presentation/view/icon_button_holder.dart';
 
 final class TopButtonView extends StatelessWidget {
   final Function() actionReset;

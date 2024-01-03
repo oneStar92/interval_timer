@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tabata_timer/common/custom_colors.dart';
 import 'package:tabata_timer/presentation/tabata/components/bottom_buttons_view.dart';
-import 'package:tabata_timer/presentation/tabata/components/counter_view.dart';
-import 'package:tabata_timer/presentation/tabata/components/current_timer_view_holder.dart';
+import 'package:tabata_timer/presentation/tabata/components/top_view.dart';
+import 'package:tabata_timer/presentation/tabata/components/current_timer_view.dart';
 import 'package:tabata_timer/presentation/tabata/components/top_button_view.dart';
 import 'package:tabata_timer/presentation/tabata/tabata_view_model.dart';
 
@@ -22,7 +22,7 @@ final class TabataView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              CounterView<TabataViewModel>(
+              TopView<TabataViewModel>(
                 roundCountSelector: (_, viewModel) => viewModel.round,
                 cycleCountSelector: (_, viewModel) => viewModel.cycle,
                 totalTimeSelector: (_, viewModel) => viewModel.remainingTime,
@@ -34,7 +34,7 @@ final class TabataView extends StatelessWidget {
                 actionCancel: () {},
               ),
               Expanded(
-                child: CurrentTimerViewHolder<TabataViewModel>(
+                child: CurrentTimerView<TabataViewModel>(
                   currentTimeSelector: (context, viewModel) => viewModel.currentTime,
                   currentTitleSelector: (context, viewModel) => viewModel.currentState.toString(),
                 ),

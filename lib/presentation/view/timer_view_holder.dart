@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/presentation/abstract/base_view_holder.dart';
 
-final class TotalTimerViewHolder<T extends ChangeNotifier> extends BaseViewHolder {
+final class TimerViewHolder<T extends ChangeNotifier> extends BaseViewHolder {
+  final TextStyle _textStyle;
   final Time Function(BuildContext, T) _selector;
 
-  const TotalTimerViewHolder({
+  const TimerViewHolder({
     super.key,
     super.onClick,
+    required TextStyle textStyle,
     required Time Function(BuildContext, T) selector,
-  }) : _selector = selector;
+  })  : _textStyle = textStyle,
+        _selector = selector;
 
   @override
   Widget createContent(BuildContext context) {
@@ -26,31 +28,19 @@ final class TotalTimerViewHolder<T extends ChangeNotifier> extends BaseViewHolde
                 child: Text(
                   remainingTime.minute,
                   textAlign: TextAlign.right,
-                  style: TextStyle(
-                    fontSize: 48.sp,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
+                  style: _textStyle,
                 ),
               ),
               Text(
                 ':',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 48.sp,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                ),
+                style: _textStyle,
               ),
               Expanded(
                 child: Text(
                   remainingTime.second,
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 48.sp,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
+                  style: _textStyle,
                 ),
               ),
             ],
