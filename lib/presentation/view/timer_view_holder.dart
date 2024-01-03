@@ -18,33 +18,34 @@ final class TimerViewHolder<T extends ChangeNotifier> extends BaseViewHolder {
   @override
   Widget createContent(BuildContext context) {
     return Selector<T, Time>(
-        selector: _selector,
-        builder: (_, remainingTime, child) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Text(
-                  remainingTime.minute,
-                  textAlign: TextAlign.right,
-                  style: _textStyle,
-                ),
-              ),
-              Text(
-                ':',
-                textAlign: TextAlign.center,
+      selector: _selector,
+      builder: (_, remainingTime, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Text(
+                remainingTime.minute,
+                textAlign: TextAlign.right,
                 style: _textStyle,
               ),
-              Expanded(
-                child: Text(
-                  remainingTime.second,
-                  textAlign: TextAlign.left,
-                  style: _textStyle,
-                ),
+            ),
+            Text(
+              ':',
+              textAlign: TextAlign.center,
+              style: _textStyle,
+            ),
+            Expanded(
+              child: Text(
+                remainingTime.second,
+                textAlign: TextAlign.left,
+                style: _textStyle,
               ),
-            ],
-          );
-        });
+            ),
+          ],
+        );
+      },
+    );
   }
 }
