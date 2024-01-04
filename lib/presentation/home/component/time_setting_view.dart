@@ -11,6 +11,7 @@ class TimeSettingView<T extends ChangeNotifier> extends StatelessWidget {
   final Function() _actionIncrease;
   final Function() _actionDecrease;
   final Time Function(BuildContext, T) _timeSelector;
+  final Function() _showTimerPicker;
 
   const TimeSettingView({
     super.key,
@@ -18,11 +19,12 @@ class TimeSettingView<T extends ChangeNotifier> extends StatelessWidget {
     required Function() actionIncrease,
     required Function() actionDecrease,
     required Time Function(BuildContext, T) timeSelector,
-  })
-      : _element = element,
+    required Function() showTimerPicker,
+  })  : _element = element,
         _actionIncrease = actionIncrease,
         _actionDecrease = actionDecrease,
-        _timeSelector = timeSelector;
+        _timeSelector = timeSelector,
+        _showTimerPicker = showTimerPicker;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,7 @@ class TimeSettingView<T extends ChangeNotifier> extends StatelessWidget {
           SizedBox(
             width: 160.w,
             child: TimerViewHolder(
+              onClick: _showTimerPicker,
               selector: _timeSelector,
               textStyle: TextStyle(
                 fontSize: 40.sp,

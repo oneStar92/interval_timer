@@ -10,6 +10,7 @@ class CountSettingView<T extends ChangeNotifier> extends StatelessWidget {
   final Function() _actionIncrease;
   final Function() _actionDecrease;
   final String Function(BuildContext, T) _countSelector;
+  final Function() _showCountPicker;
 
   const CountSettingView({
     super.key,
@@ -17,10 +18,13 @@ class CountSettingView<T extends ChangeNotifier> extends StatelessWidget {
     required Function() actionIncrease,
     required Function() actionDecrease,
     required String Function(BuildContext, T) countSelector,
+    required Function(int) actionChangeCount,
+    required Function() showCountPicker,
   })  : _element = element,
         _actionIncrease = actionIncrease,
         _actionDecrease = actionDecrease,
-        _countSelector = countSelector;
+        _countSelector = countSelector,
+        _showCountPicker = showCountPicker;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,6 @@ class CountSettingView<T extends ChangeNotifier> extends StatelessWidget {
         color: Colors.white,
       ),
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
@@ -60,6 +63,7 @@ class CountSettingView<T extends ChangeNotifier> extends StatelessWidget {
           SizedBox(
             width: 100.w,
             child: CountViewHolder(
+              onClick: _showCountPicker,
               textStyle: TextStyle(
                 fontSize: 40.sp,
                 fontFamily: 'Suite',
