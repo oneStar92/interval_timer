@@ -19,32 +19,76 @@ final class HomeViewModel with ChangeNotifier {
     switch (element) {
       case TabataElement.preparationTime:
         return _tabata.preparationSeconds.toTime();
-      case TabataElement.cycle:
-        throw Exception();
       case TabataElement.cycleBreakTime:
         return _tabata.cycleBreakSeconds.toTime();
-      case TabataElement.round:
-        throw Exception();
       case TabataElement.exerciseTime:
         return _tabata.exerciseSeconds.toTime();
       case TabataElement.breakTime:
         return _tabata.breakSeconds.toTime();
+      default:
+        throw Exception();
+    }
+  }
+
+  int getIntegerCountOf(TabataElement element) {
+    switch (element) {
+      case TabataElement.cycle:
+        return _tabata.cycleCount;
+      case TabataElement.round:
+        return _tabata.roundCount;
+      default:
+        throw Exception();
+    }
+  }
+
+  int getIntegerMinuteOf(TabataElement element) {
+    switch (element) {
+      case TabataElement.preparationTime:
+        return _tabata.preparationSeconds ~/ 60;
+      case TabataElement.cycleBreakTime:
+        return _tabata.cycleBreakSeconds ~/ 60;
+      case TabataElement.exerciseTime:
+        return _tabata.exerciseSeconds ~/ 60;
+      case TabataElement.breakTime:
+        return _tabata.breakSeconds ~/ 60;
+      default:
+        throw Exception();
+    }
+  }
+
+  int getIntegerSecondOf(TabataElement element) {
+    switch (element) {
+      case TabataElement.preparationTime:
+        return _tabata.preparationSeconds % 60;
+      case TabataElement.cycleBreakTime:
+        return _tabata.cycleBreakSeconds % 60;
+      case TabataElement.exerciseTime:
+        return _tabata.exerciseSeconds % 60;
+      case TabataElement.breakTime:
+        return _tabata.breakSeconds % 60;
+      default:
+        throw Exception();
     }
   }
 
   String getCountOf(TabataElement element) {
     switch (element) {
-      case TabataElement.preparationTime:
-        throw Exception();
       case TabataElement.cycle:
         return '${_tabata.cycleCount}';
-      case TabataElement.cycleBreakTime:
-        throw Exception();
       case TabataElement.round:
         return '${_tabata.roundCount}';
-      case TabataElement.exerciseTime:
+      default:
         throw Exception();
-      case TabataElement.breakTime:
+    }
+  }
+
+  int getMaximumCountOf(TabataElement element) {
+    switch (element) {
+      case TabataElement.cycle:
+        return maximumCycleCount;
+      case TabataElement.round:
+        return maximumRoundCount;
+      default:
         throw Exception();
     }
   }
@@ -94,6 +138,42 @@ final class HomeViewModel with ChangeNotifier {
       case TabataElement.breakTime:
         _tabata.breakSeconds -= 1;
         break;
+    }
+    save(element: element);
+    notifyListeners();
+  }
+
+  void updateCount(TabataElement element, {required int value}) {
+    switch (element) {
+      case TabataElement.cycle:
+        _tabata.cycleCount = value;
+        break;
+      case TabataElement.round:
+        _tabata.roundCount = value;
+        break;
+      default:
+        throw Exception();
+    }
+    save(element: element);
+    notifyListeners();
+  }
+
+  void updateTime(TabataElement element, {required int minute, required int second}) {
+    switch (element) {
+      case TabataElement.preparationTime:
+        _tabata.preparationSeconds = (minute * 60) + second;
+        break;
+      case TabataElement.cycleBreakTime:
+        _tabata.cycleBreakSeconds = (minute * 60) + second;
+        break;
+      case TabataElement.exerciseTime:
+        _tabata.exerciseSeconds = (minute * 60) + second;
+        break;
+      case TabataElement.breakTime:
+        _tabata.breakSeconds = (minute * 60) + second;
+        break;
+      default:
+        throw Exception();
     }
     save(element: element);
     notifyListeners();
