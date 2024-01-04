@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:tabata_timer/common/constants.dart';
-import 'package:tabata_timer/presentation/extension/int_to_time.dart';
+import 'package:tabata_timer/common/extension/int_to_time.dart';
 import 'package:tabata_timer/presentation/model/tabata.dart';
 import 'package:tabata_timer/presentation/model/tabata_element.dart';
 
