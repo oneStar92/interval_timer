@@ -28,23 +28,20 @@ class TabataStartButtonHolder<T extends ChangeNotifier> extends BaseViewHolder {
             ),
           ),
         ),
-        Expanded(
-          child: Padding(
-            padding: REdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              exerciseButtonTitle,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 28.sp,
-                fontFamily: 'Suite',
-                fontWeight: FontWeight.w800,
-              ),
+        Padding(
+          padding: REdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            exerciseButtonTitle,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 28.sp,
+              fontFamily: 'Suite',
+              fontWeight: FontWeight.w800,
             ),
           ),
         ),
-        SizedBox(
-          width: 120.w,
+        Expanded(
           child: TimerViewHolder(
             textStyle: TextStyle(
               color: Colors.white,
