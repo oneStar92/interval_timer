@@ -37,7 +37,7 @@ final class TabataViewModel with ChangeNotifier {
   void start() {
     if (_isEnd) reset();
     _isPlaying = true;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       _currentStateRemainingTime--;
       _remainingTime--;
       if (_currentStateRemainingTime == 0) {
@@ -87,9 +87,7 @@ final class TabataViewModel with ChangeNotifier {
         _setStateToExercise();
         _increaseCycle();
         break;
-      case TabataElement.cycle:
-        throw Exception();
-      case TabataElement.round:
+      default:
         throw Exception();
     }
   }
