@@ -3,13 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/common/custom_colors.dart';
+import 'package:tabata_timer/presentation/di/view_model_provider.dart';
 import 'package:tabata_timer/presentation/home/component/count_picker_view.dart';
 import 'package:tabata_timer/presentation/home/component/count_setting_view.dart';
 import 'package:tabata_timer/presentation/home/component/tabata_start_button_holder.dart';
 import 'package:tabata_timer/presentation/home/component/time_picker_view.dart';
 import 'package:tabata_timer/presentation/home/component/time_setting_view.dart';
 import 'package:tabata_timer/presentation/home/home_view_model.dart';
-import 'package:tabata_timer/presentation/model/tabata_element.dart';
+import 'package:tabata_timer/domain/model/tabata_element.dart';
+import 'package:tabata_timer/presentation/tabata/tabata_view.dart';
+import 'package:tabata_timer/presentation/tabata/tabata_view_model.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -49,6 +52,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: TabataStartButtonHolder<HomeViewModel>(
                     timeSelector: (_, viewModel) => viewModel.totalTime,
+                    onClick: () => _pushTabataView(context),
                   ),
                 );
               } else {
@@ -88,7 +92,7 @@ class HomeScreen extends StatelessWidget {
   Future<void> _showCountPickerView(BuildContext context, TabataElement element) {
     return showModalBottomSheet(
       context: context,
-      builder: (context) {
+      builder: (_) {
         return SizedBox(
           height: ScreenUtil().screenHeight * 0.33,
           child: CountPickerView(
@@ -105,7 +109,7 @@ class HomeScreen extends StatelessWidget {
   Future<void> _showTimePickerView(BuildContext context, TabataElement element) {
     return showModalBottomSheet(
       context: context,
-      builder: (context) {
+      builder: (_) {
         return SizedBox(
           height: ScreenUtil().screenHeight * 0.33,
           child: TimePickerView(
@@ -120,6 +124,18 @@ class HomeScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Future<void> _pushTabataView(BuildContext context) {
+    return Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ChangeNotifierProvider<TabataViewModel>(
+          create: (_) => ViewModelContainer.createTabataViewModel(tabata: context.read<HomeViewModel>().tabata),
+          child: const TabataView(),
+        ),
+      ),
     );
   }
 }

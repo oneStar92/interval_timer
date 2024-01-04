@@ -1,19 +1,29 @@
 import 'package:flutter/foundation.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/common/extension/int_to_time.dart';
-import 'package:tabata_timer/presentation/model/tabata.dart';
-import 'package:tabata_timer/presentation/model/tabata_element.dart';
-import 'package:tabata_timer/repository/shared_preferences_repository.dart';
+import 'package:tabata_timer/domain/model/tabata.dart';
+import 'package:tabata_timer/domain/model/tabata_element.dart';
+import 'package:tabata_timer/domain/usecases/shared_preferences_use_case.dart';
 
 final class HomeViewModel with ChangeNotifier {
-  final _repository = DefaultSharedPreferencesRepository();
-  final _tabata = Tabata();
+  final SharedPreferencesUseCase _useCase;
+  Tabata _tabata = const Tabata();
 
-  HomeViewModel() {
-    loadAll();
+  HomeViewModel({
+    required SharedPreferencesUseCase useCase,
+  }) : _useCase = useCase {
+    load();
   }
 
-  Time get totalTime => _tabata.totalMinuteSeconds.toTime();
+  Tabata get tabata => _tabata;
+
+  Time get totalTime {
+    final roundSeconds = _tabata.exerciseSeconds + _tabata.breakSeconds;
+    final totalRoundSeconds = (roundSeconds * _tabata.roundCount) - _tabata.breakSeconds;
+    final cycleSeconds = totalRoundSeconds + _tabata.cycleBreakSeconds;
+    final totalCycleSeconds = (cycleSeconds * _tabata.cycleCount) - _tabata.cycleBreakSeconds;
+    return (_tabata.preparationSeconds + totalCycleSeconds).toTime();
+  }
 
   Time getTimeOf(TabataElement element) {
     switch (element) {
@@ -96,109 +106,94 @@ final class HomeViewModel with ChangeNotifier {
   void increase({required TabataElement element}) {
     switch (element) {
       case TabataElement.preparationTime:
-        _tabata.preparationSeconds += 1;
+        _tabata = _tabata.copyWith(preparationSeconds: _tabata.preparationSeconds + 1);
         break;
       case TabataElement.cycle:
-        _tabata.cycleCount += 1;
+        _tabata = _tabata.copyWith(cycleCount: _tabata.cycleCount + 1);
         break;
       case TabataElement.cycleBreakTime:
-        _tabata.cycleBreakSeconds += 1;
+        _tabata = _tabata.copyWith(cycleBreakSeconds: _tabata.cycleBreakSeconds + 1);
         break;
       case TabataElement.round:
-        _tabata.roundCount += 1;
+        _tabata = _tabata.copyWith(roundCount: _tabata.roundCount + 1);
         break;
       case TabataElement.exerciseTime:
-        _tabata.exerciseSeconds += 1;
+        _tabata = _tabata.copyWith(exerciseSeconds: _tabata.exerciseSeconds + 1);
         break;
       case TabataElement.breakTime:
-        _tabata.breakSeconds += 1;
+        _tabata = _tabata.copyWith(breakSeconds: _tabata.breakSeconds + 1);
         break;
     }
-    save(element: element);
+    save();
     notifyListeners();
   }
 
   void decrease({required TabataElement element}) {
     switch (element) {
       case TabataElement.preparationTime:
-        _tabata.preparationSeconds -= 1;
+        _tabata = _tabata.copyWith(preparationSeconds: _tabata.preparationSeconds - 1);
         break;
       case TabataElement.cycle:
-        _tabata.cycleCount -= 1;
+        _tabata = _tabata.copyWith(cycleCount: _tabata.cycleCount - 1);
         break;
       case TabataElement.cycleBreakTime:
-        _tabata.cycleBreakSeconds -= 1;
+        _tabata = _tabata.copyWith(cycleBreakSeconds: _tabata.cycleBreakSeconds - 1);
         break;
       case TabataElement.round:
-        _tabata.roundCount -= 1;
+        _tabata = _tabata.copyWith(roundCount: _tabata.roundCount - 1);
         break;
       case TabataElement.exerciseTime:
-        _tabata.exerciseSeconds -= 1;
+        _tabata = _tabata.copyWith(exerciseSeconds: _tabata.exerciseSeconds - 1);
         break;
       case TabataElement.breakTime:
-        _tabata.breakSeconds -= 1;
+        _tabata = _tabata.copyWith(breakSeconds: _tabata.breakSeconds - 1);
         break;
     }
-    save(element: element);
+    save();
     notifyListeners();
   }
 
   void updateCount(TabataElement element, {required int value}) {
     switch (element) {
       case TabataElement.cycle:
-        _tabata.cycleCount = value;
+        _tabata = _tabata.copyWith(cycleCount: value);
         break;
       case TabataElement.round:
-        _tabata.roundCount = value;
+        _tabata = _tabata.copyWith(roundCount: value);
         break;
       default:
         throw Exception();
     }
-    save(element: element);
+    save();
     notifyListeners();
   }
 
   void updateTime(TabataElement element, {required int minute, required int second}) {
     switch (element) {
       case TabataElement.preparationTime:
-        _tabata.preparationSeconds = (minute * 60) + second;
+        _tabata = _tabata.copyWith(preparationSeconds: (minute * 60) + second);
         break;
       case TabataElement.cycleBreakTime:
-        _tabata.cycleBreakSeconds = (minute * 60) + second;
+        _tabata = _tabata.copyWith(cycleBreakSeconds: (minute * 60) + second);
         break;
       case TabataElement.exerciseTime:
-        _tabata.exerciseSeconds = (minute * 60) + second;
+        _tabata = _tabata.copyWith(exerciseSeconds: (minute * 60) + second);
         break;
       case TabataElement.breakTime:
-        _tabata.breakSeconds = (minute * 60) + second;
+        _tabata = _tabata.copyWith(breakSeconds: (minute * 60) + second);
         break;
       default:
         throw Exception();
     }
-    save(element: element);
+    save();
     notifyListeners();
   }
 
-  Future<void> loadAll() async {
-    final result = await _repository.loadAll();
-    _tabata.updateValueFromMap(result);
-    notifyListeners();
+  void load() async {
+    _tabata = await _useCase.load();
   }
 
-  void save({required TabataElement element}) {
-    switch (element) {
-      case TabataElement.preparationTime:
-        _repository.save(element.key, _tabata.preparationSeconds);
-      case TabataElement.cycle:
-        _repository.save(element.key, _tabata.cycleCount);
-      case TabataElement.cycleBreakTime:
-        _repository.save(element.key, _tabata.cycleBreakSeconds);
-      case TabataElement.round:
-        _repository.save(element.key, _tabata.roundCount);
-      case TabataElement.exerciseTime:
-        _repository.save(element.key, _tabata.exerciseSeconds);
-      case TabataElement.breakTime:
-        _repository.save(element.key, _tabata.breakSeconds);
-    }
+  void save() {
+    _useCase.save(_tabata);
   }
 }

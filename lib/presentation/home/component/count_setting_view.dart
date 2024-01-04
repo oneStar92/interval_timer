@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabata_timer/common/custom_colors.dart';
-import 'package:tabata_timer/presentation/model/tabata_element.dart';
+import 'package:tabata_timer/domain/model/tabata_element.dart';
 import 'package:tabata_timer/presentation/view/count_view_holder.dart';
 import 'package:tabata_timer/presentation/view/icon_button_holder.dart';
 

@@ -31,11 +31,14 @@ final class TabataView extends StatelessWidget {
                 actionReset: () {
                   context.read<TabataViewModel>().reset();
                 },
-                actionCancel: () {},
+                actionCancel: () {
+                  context.read<TabataViewModel>().pause();
+                  Navigator.pop(context);
+                },
               ),
               Expanded(
                 child: CurrentTimerView<TabataViewModel>(
-                  currentTimeSelector: (context, viewModel) => viewModel.currentTime,
+                  currentTimeSelector: (context, viewModel) => viewModel.currentStateRemainingTime,
                   currentTitleSelector: (context, viewModel) => viewModel.currentState.toString(),
                 ),
               ),

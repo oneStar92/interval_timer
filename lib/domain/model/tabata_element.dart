@@ -27,21 +27,4 @@ enum TabataElement {
         return breakSecondsTitle;
     }
   }
-
-  String get key {
-    switch (this) {
-      case TabataElement.preparationTime:
-        return preparationSecondsKey;
-      case TabataElement.cycle:
-        return cycleCountKey;
-      case TabataElement.cycleBreakTime:
-        return cycleBreakSecondsKey;
-      case TabataElement.round:
-        return roundCountKey;
-      case TabataElement.exerciseTime:
-        return exerciseSecondsKey;
-      case TabataElement.breakTime:
-        return breakSecondsKey;
-    }
-  }
 }

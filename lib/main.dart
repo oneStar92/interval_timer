@@ -4,16 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tabata_timer/presentation/di/view_model_provider.dart';
 import 'package:tabata_timer/presentation/home/home_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:tabata_timer/presentation/home/home_view_model.dart';
+import 'package:tabata_timer/presentation/tabata/tabata_view.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        homeViewModelProvider
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,6 +24,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp(
           title: 'Tabata Timer',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             fontFamily: 'Suite',
             useMaterial3: true,
@@ -36,7 +32,10 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: const HomeScreen(),
+      child: ChangeNotifierProvider<HomeViewModel>(
+        create: (_) => ViewModelContainer.createHomeViewModel(),
+        child: const HomeScreen(),
+      ),
     );
   }
 }

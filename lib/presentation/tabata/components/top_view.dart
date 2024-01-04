@@ -40,7 +40,7 @@ final class TopView<T extends ChangeNotifier> extends StatelessWidget {
           Expanded(
             child: TimerViewHolder<T>(
               textStyle: TextStyle(
-                fontSize: 48.sp,
+                fontSize: 28.sp,
                 fontWeight: FontWeight.w800,
                 color: Colors.white,
               ),

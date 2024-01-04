@@ -2,82 +2,80 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/common/extension/int_to_time.dart';
-import 'package:tabata_timer/presentation/model/tabata.dart';
-import 'package:tabata_timer/presentation/model/tabata_element.dart';
+import 'package:tabata_timer/domain/model/tabata.dart';
+import 'package:tabata_timer/domain/model/tabata_element.dart';
+import 'package:tabata_timer/presentation/tabata/tabata_view_state.dart';
 
 final class TabataViewModel with ChangeNotifier {
   final Tabata _tabata;
   Timer? _timer;
-  TabataElement _currentState = TabataElement.preparationTime;
-  bool _isPlaying = false;
-  bool _isEnd = false;
-  int _currentRound = 1;
-  int _currentCycle = 1;
-  int _currentStateRemainingTime;
-  int _remainingTime;
+  TabataViewState _state = const TabataViewState();
 
   TabataViewModel({
     required Tabata tabata,
-  })  : _tabata = tabata,
-        _currentStateRemainingTime = tabata.preparationSeconds,
-        _remainingTime = tabata.totalMinuteSeconds;
+  }) : _tabata = tabata;
 
-  RemainingCount get round => (current: '$_currentRound', max: '${_tabata.roundCount}');
+  RemainingCount get round => (current: '${_state.currentRound}', max: '${_tabata.roundCount}');
 
-  RemainingCount get cycle => (current: '$_currentCycle', max: '${_tabata.cycleCount}');
+  RemainingCount get cycle => (current: '${_state.currentCycle}', max: '${_tabata.cycleCount}');
 
-  TabataElement get currentState => _currentState;
+  TabataElement get currentState => _state.currentState;
 
-  Time get currentTime => _currentStateRemainingTime.toTime();
+  Time get currentStateRemainingTime => (currentStateMaximumSecond - _state.currentStateProgressedSecond).toTime();
 
-  Time get remainingTime => _remainingTime.toTime();
+  int get currentStateMaximumSecond {
+    switch (_state.currentState) {
+      case TabataElement.preparationTime:
+        return _tabata.preparationSeconds;
+      case TabataElement.cycleBreakTime:
+        return _tabata.cycleBreakSeconds;
+      case TabataElement.exerciseTime:
+        return _tabata.exerciseSeconds;
+      case TabataElement.breakTime:
+        return _tabata.breakSeconds;
+      default:
+        throw Exception();
+    }
+  }
 
-  bool get isPlaying => _isPlaying;
+  Time get remainingTime => (_tabata.totalTime - _state.totalProgressedSecond).toTime();
+
+  bool get isPlaying => _timer?.isActive ?? false;
 
   void start() {
-    if (_isEnd) reset();
-    _isPlaying = true;
+    if (_state.isEnd) reset();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      _currentStateRemainingTime--;
-      _remainingTime--;
-      if (_currentStateRemainingTime == 0) {
-        _setState();
+      _increaseOneSecond();
+      if (_state.currentStateProgressedSecond == currentStateMaximumSecond) {
+        _next();
       }
-      notifyListeners();
     });
     notifyListeners();
   }
 
   void pause() {
     _timer?.cancel();
-    _isPlaying = false;
     notifyListeners();
   }
 
   void _end() {
     _timer?.cancel();
-    _isPlaying = false;
-    _isEnd = true;
-    notifyListeners();
+    _state = _state.copyWith(isEnd: true);
   }
 
   void reset() {
     _timer?.cancel();
-    _setStateToPreparation();
-    _currentRound = 1;
-    _currentCycle = 1;
-    _isPlaying = false;
-    _isEnd = false;
+    _state = const TabataViewState();
     notifyListeners();
   }
 
-  void _setState() {
-    switch (_currentState) {
+  void _next() {
+    switch (_state.currentState) {
       case TabataElement.preparationTime:
         _setStateToExercise();
         break;
       case TabataElement.exerciseTime:
-        _currentRound < _tabata.roundCount ? _setStateToBreakTime() : _setStateToCycleBreakTime();
+        _state.currentRound < _tabata.roundCount ? _setStateToBreakTime() : _setStateToCycleBreakTime();
         break;
       case TabataElement.breakTime:
         _setStateToExercise();
@@ -90,35 +88,35 @@ final class TabataViewModel with ChangeNotifier {
       default:
         throw Exception();
     }
-  }
-
-  void _setStateToPreparation() {
-    _currentState = TabataElement.preparationTime;
-    _currentStateRemainingTime = _tabata.preparationSeconds;
+    notifyListeners();
   }
 
   void _setStateToExercise() {
-    _currentState = TabataElement.exerciseTime;
-    _currentStateRemainingTime = _tabata.exerciseSeconds;
+    _state = _state.copyWith(currentState: TabataElement.exerciseTime, currentStateProgressedSecond: 0);
   }
 
   void _setStateToBreakTime() {
-    _currentState = TabataElement.breakTime;
-    _currentStateRemainingTime = _tabata.breakSeconds;
+    _state = _state.copyWith(currentState: TabataElement.breakTime, currentStateProgressedSecond: 0);
   }
 
   void _setStateToCycleBreakTime() {
-    if (_currentCycle == _tabata.cycleCount) return _end();
-    _currentState = TabataElement.cycleBreakTime;
-    _currentStateRemainingTime = _tabata.cycleBreakSeconds;
+    if (_state.currentCycle == _tabata.cycleCount) return _end();
+    _state = _state.copyWith(currentState: TabataElement.cycleBreakTime, currentStateProgressedSecond: 0);
   }
 
   void _increaseCycle() {
-    _currentRound = 1;
-    _currentCycle++;
+    _state = _state.copyWith(currentRound: 1, currentCycle: _state.currentCycle + 1);
   }
 
   void _increaseRound() {
-    _currentRound++;
+    _state = _state.copyWith(currentRound: _state.currentRound + 1);
+  }
+
+  void _increaseOneSecond() {
+    _state = _state.copyWith(
+      currentStateProgressedSecond: _state.currentStateProgressedSecond + 1,
+      totalProgressedSecond: _state.totalProgressedSecond + 1,
+    );
+    notifyListeners();
   }
 }
