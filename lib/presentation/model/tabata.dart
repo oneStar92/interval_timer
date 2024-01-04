@@ -35,27 +35,27 @@ final class Tabata {
   int get preparationSeconds => _preparationSeconds;
 
   set breakSeconds(int value) {
-    if (value < maximumTime && value > minimum) _breakSeconds = value;
+    if (value <= maximumTime && value >= minimum) _breakSeconds = value;
   }
 
   set exerciseSeconds(int value) {
-    if (value < maximumTime && value > minimum) _exerciseSeconds = value;
+    if (value <= maximumTime && value >= minimum) _exerciseSeconds = value;
   }
 
   set roundCount(int value) {
-    if (value < maximumRoundCount && value > minimum) _roundCount = value;
+    if (value <= maximumRoundCount && value >= minimum) _roundCount = value;
   }
 
   set cycleBreakSeconds(int value) {
-    if (value < maximumTime && value > minimum) _cycleBreakSeconds = value;
+    if (value <= maximumTime && value >= minimum) _cycleBreakSeconds = value;
   }
 
   set cycleCount(int value) {
-    if (value < maximumCycleCount && value > minimum) _cycleCount = value;
+    if (value <= maximumCycleCount && value >= minimum) _cycleCount = value;
   }
 
   set preparationSeconds(int value) {
-    if (value < maximumTime && value > minimum) _preparationSeconds = value;
+    if (value <= maximumTime && value >= minimum) _preparationSeconds = value;
   }
 
   int get totalMinuteSeconds {
