@@ -28,15 +28,14 @@ class BottomButtonsView<T extends ChangeNotifier> extends StatelessWidget {
           height: 80.h,
           width: 80.h,
           child: Selector<T, bool>(
-            selector: _startButtonSelector,
-            builder: (_, isPlay, child) {
-              return IconButtonHolder(
-                onClick: isPlay ? actionPause : actionPlay,
-                icon: isPlay ? Icons.pause : Icons.play_arrow,
-                color: Colors.white,
-              );
-            }
-          ),
+              selector: _startButtonSelector,
+              builder: (_, isPlay, child) {
+                return IconButtonHolder(
+                  onClick: isPlay ? actionPause : actionPlay,
+                  icon: isPlay ? Icons.pause : Icons.play_arrow,
+                  color: Colors.white,
+                );
+              }),
         ),
       ),
     );

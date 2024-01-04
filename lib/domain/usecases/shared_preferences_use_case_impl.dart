@@ -1,8 +1,5 @@
 import 'dart:convert';
-
-import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/domain/model/tabata.dart';
-import 'package:tabata_timer/domain/model/tabata_element.dart';
 import 'package:tabata_timer/domain/repository/shared_preferences_repository.dart';
 import 'package:tabata_timer/domain/usecases/shared_preferences_use_case.dart';
 

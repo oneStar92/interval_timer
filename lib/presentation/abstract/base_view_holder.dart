@@ -8,7 +8,7 @@ abstract class BaseViewHolder extends StatelessWidget {
   const BaseViewHolder({
     super.key,
     Function()? onClick,
-  })  : _onClick = onClick;
+  }) : _onClick = onClick;
 
   @override
   Widget build(BuildContext context) {

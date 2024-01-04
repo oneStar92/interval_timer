@@ -21,6 +21,7 @@ class Tabata with _$Tabata {
     @Default(90) int exerciseSeconds,
     @Default(10) int breakSeconds,
   }) = _Tabata;
+
   const Tabata._();
 
   int get totalTime {

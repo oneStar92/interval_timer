@@ -42,7 +42,7 @@ class TimePickerView extends StatelessWidget {
                 Expanded(
                   child: CupertinoPicker.builder(
                     scrollController: _minuteController,
-                    childCount: maximumMinute + 1,
+                    childCount: maximumMinute,
                     itemExtent: 50,
                     onSelectedItemChanged: null,
                     itemBuilder: (context, index) {
@@ -66,7 +66,7 @@ class TimePickerView extends StatelessWidget {
                 Expanded(
                   child: CupertinoPicker.builder(
                     scrollController: _secondController,
-                    childCount: maximumSeconds + 1,
+                    childCount: maximumSeconds,
                     itemExtent: 50,
                     onSelectedItemChanged: null,
                     itemBuilder: (context, index) {

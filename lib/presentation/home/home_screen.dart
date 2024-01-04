@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/common/custom_colors.dart';
-import 'package:tabata_timer/presentation/di/view_model_provider.dart';
+import 'package:tabata_timer/common/di/view_model_container.dart';
 import 'package:tabata_timer/presentation/home/component/count_picker_view.dart';
 import 'package:tabata_timer/presentation/home/component/count_setting_view.dart';
 import 'package:tabata_timer/presentation/home/component/tabata_start_button_holder.dart';
