@@ -6,7 +6,11 @@ import 'package:tabata_timer/presentation/home/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:tabata_timer/presentation/home/home_view_model.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(const MyApp());
 }
 
@@ -17,7 +21,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //상태바 투명 처리
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
     return ScreenUtilInit(
       minTextAdapt: true,
       builder: (_, child) {
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
       },
       child: ChangeNotifierProvider<HomeViewModel>(
         create: (_) => ViewModelContainer.createHomeViewModel(),
-        child: const HomeScreen(),
+        child: HomeScreen(),
       ),
     );
   }
