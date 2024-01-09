@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/common/custom_colors.dart';
 import 'package:tabata_timer/presentation/tabata/components/bottom_buttons_view.dart';
+import 'package:tabata_timer/presentation/tabata/components/custom_alert_dialog.dart';
 import 'package:tabata_timer/presentation/tabata/components/top_view.dart';
 import 'package:tabata_timer/presentation/tabata/components/current_timer_view.dart';
 import 'package:tabata_timer/presentation/tabata/components/top_button_view.dart';
@@ -29,11 +31,23 @@ final class TabataView extends StatelessWidget {
               ),
               TopButtonView(
                 actionReset: () {
-                  context.read<TabataViewModel>().reset();
+                  context.read<TabataViewModel>().pause();
+                  _showResetDialog(
+                    context: context,
+                    resetAction: () {
+                      context.read<TabataViewModel>().reset();
+                      Navigator.pop(context);
+                    },
+                  );
                 },
                 actionCancel: () {
                   context.read<TabataViewModel>().pause();
-                  Navigator.pop(context);
+                  _showCancelDialog(
+                    context: context,
+                    cancelAction: () {
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                    },
+                  );
                 },
               ),
               Expanded(
@@ -55,6 +69,32 @@ final class TabataView extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showCancelDialog({required BuildContext context, required Function() cancelAction}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(
+          title: cancelTitle,
+          content: cancelContent,
+          okAction: cancelAction,
+        );
+      },
+    );
+  }
+
+  void _showResetDialog({required BuildContext context, required Function() resetAction}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(
+          title: resetTitle,
+          content: resetContent,
+          okAction: resetAction,
+        );
+      },
     );
   }
 }
