@@ -3,6 +3,7 @@ import 'package:tabata_timer/domain/usecases/shared_preferences_use_case_impl.da
 import 'package:tabata_timer/presentation/home/home_view_model.dart';
 import 'package:tabata_timer/domain/model/tabata.dart';
 import 'package:tabata_timer/presentation/tabata/tabata_view_model.dart';
+import 'package:tabata_timer/util/audio_manager_impl.dart';
 
 final class ViewModelContainer {
   static HomeViewModel createHomeViewModel() {
@@ -12,6 +13,7 @@ final class ViewModelContainer {
   }
 
   static TabataViewModel createTabataViewModel({Tabata tabata = const Tabata()}) {
-    return TabataViewModel(tabata: tabata);
+    final audioManager = AudioManagerImpl();
+    return TabataViewModel(tabata: tabata, audioManager: audioManager);
   }
 }
