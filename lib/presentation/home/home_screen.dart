@@ -127,8 +127,8 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _pushTabataView(BuildContext context) {
-    return Navigator.push(
+  void _pushTabataView(BuildContext context) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => ChangeNotifierProvider<TabataViewModel>(
