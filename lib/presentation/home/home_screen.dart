@@ -62,7 +62,6 @@ class HomeScreen extends StatelessWidget {
                     element: element,
                     actionIncrease: () => context.read<HomeViewModel>().increase(element: element),
                     actionDecrease: () => context.read<HomeViewModel>().decrease(element: element),
-                    actionChangeCount: (count) => context.read<HomeViewModel>().updateCount(element, value: count),
                     showCountPicker: () => _showCountPickerView(context, element),
                     countSelector: (_, viewModel) => viewModel.getCountOf(element),
                   );

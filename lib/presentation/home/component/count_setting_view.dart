@@ -18,7 +18,6 @@ class CountSettingView<T extends ChangeNotifier> extends StatelessWidget {
     required Function() actionIncrease,
     required Function() actionDecrease,
     required String Function(BuildContext, T) countSelector,
-    required Function(int) actionChangeCount,
     required Function() showCountPicker,
   })  : _element = element,
         _actionIncrease = actionIncrease,
