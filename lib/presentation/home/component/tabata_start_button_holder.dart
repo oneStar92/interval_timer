@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/presentation/abstract/base_view_holder.dart';
-import 'package:tabata_timer/presentation/view/timer_view_holder.dart';
 
 class TabataStartButtonHolder<T extends ChangeNotifier> extends BaseViewHolder {
   final Time Function(BuildContext, T) _timeSelector;
@@ -19,8 +19,8 @@ class TabataStartButtonHolder<T extends ChangeNotifier> extends BaseViewHolder {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          height: 30.w,
-          width: 30.w,
+          height: 40.h,
+          width: 40.h,
           child: const FittedBox(
             child: Icon(
               Icons.play_arrow,
@@ -42,14 +42,50 @@ class TabataStartButtonHolder<T extends ChangeNotifier> extends BaseViewHolder {
           ),
         ),
         Expanded(
-          child: TimerViewHolder(
-            textStyle: TextStyle(
-              color: Colors.white,
-              fontSize: 24.sp,
-              fontFamily: 'Suite',
-              fontWeight: FontWeight.w500,
-            ),
+          child: Selector<T, Time>(
             selector: _timeSelector,
+            builder: (_, remainingTime, child) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Text(
+                      remainingTime.minute,
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24.sp,
+                        fontFamily: 'Suite',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    ':',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 24.sp,
+                      fontFamily: 'Suite',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      remainingTime.second,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24.sp,
+                        fontFamily: 'Suite',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ],
