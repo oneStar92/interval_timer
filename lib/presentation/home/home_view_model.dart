@@ -4,6 +4,7 @@ import 'package:tabata_timer/common/extension/int_to_time.dart';
 import 'package:tabata_timer/domain/model/tabata.dart';
 import 'package:tabata_timer/domain/model/tabata_element.dart';
 import 'package:tabata_timer/domain/usecases/shared_preferences_use_case.dart';
+import 'package:tabata_timer/main.dart';
 
 final class HomeViewModel with ChangeNotifier {
   final SharedPreferencesUseCase _useCase;
@@ -191,6 +192,7 @@ final class HomeViewModel with ChangeNotifier {
 
   void load() async {
     _tabata = await _useCase.load();
+    notifyListeners();
   }
 
   void save() {
