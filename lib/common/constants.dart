@@ -14,3 +14,10 @@ const String cycleBreakSecondsTitle = '사이클 휴식';
 const String roundCountTitle = '라운드';
 const String exerciseSecondsTitle = '운동';
 const String breakSecondsTitle = '휴식';
+
+const String cancelTitle = '종료';
+const String cancelContent = '정말로 운동을 종료하시겠습니까?';
+const String resetTitle = '초기화';
+const String resetContent = '정말로 운동을 초기화하시겠습니까?';
+const String okTitle = '네';
+const String noTitle = '아니오';
