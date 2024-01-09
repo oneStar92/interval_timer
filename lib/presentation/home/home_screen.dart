@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:tabata_timer/common/constants.dart';
 import 'package:tabata_timer/common/custom_colors.dart';
@@ -15,10 +16,12 @@ import 'package:tabata_timer/presentation/tabata/tabata_view.dart';
 import 'package:tabata_timer/presentation/tabata/tabata_view_model.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final FToast _fToast = FToast();
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    _fToast.init(context);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -60,16 +63,28 @@ class HomeScreen extends StatelessWidget {
                 if (element == TabataElement.cycle || element == TabataElement.round) {
                   return CountSettingView<HomeViewModel>(
                     element: element,
-                    actionIncrease: () => context.read<HomeViewModel>().increase(element: element),
-                    actionDecrease: () => context.read<HomeViewModel>().decrease(element: element),
+                    actionIncrease: () => context.read<HomeViewModel>().increase(
+                          element: element,
+                          onError: (message) => _showErrorToast(message: message),
+                        ),
+                    actionDecrease: () => context.read<HomeViewModel>().decrease(
+                          element: element,
+                          onError: (message) => _showErrorToast(message: message),
+                        ),
                     showCountPicker: () => _showCountPickerView(context, element),
                     countSelector: (_, viewModel) => viewModel.getCountOf(element),
                   );
                 } else {
                   return TimeSettingView<HomeViewModel>(
                     element: element,
-                    actionIncrease: () => context.read<HomeViewModel>().increase(element: element),
-                    actionDecrease: () => context.read<HomeViewModel>().decrease(element: element),
+                    actionIncrease: () => context.read<HomeViewModel>().increase(
+                          element: element,
+                          onError: (message) => _showErrorToast(message: message),
+                        ),
+                    actionDecrease: () => context.read<HomeViewModel>().decrease(
+                          element: element,
+                          onError: (message) => _showErrorToast(message: message),
+                        ),
                     timeSelector: (_, viewModel) => viewModel.getTimeOf(element),
                     showTimerPicker: () => _showTimePickerView(context, element),
                   );
@@ -101,7 +116,7 @@ class HomeScreen extends StatelessWidget {
               element,
               value: value,
               onError: (message) {
-                _showErrorSnackBar(context: context, message: message);
+                _showErrorToast(message: message);
               },
             ),
             maximumCount: context.read<HomeViewModel>().getMaximumCountOf(element),
@@ -126,7 +141,7 @@ class HomeScreen extends StatelessWidget {
               minute: minute,
               second: second,
               onError: (message) {
-                _showErrorSnackBar(context: context, message: message);
+                _showErrorToast(message: message);
               },
             ),
           ),
@@ -135,8 +150,34 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _showErrorSnackBar({required BuildContext context, required String message}) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  void _showErrorToast({required String message}) {
+    _fToast.removeCustomToast();
+    _fToast.showToast(
+      child: _createToast(message: message),
+      toastDuration: const Duration(seconds: 1),
+      positionedToastBuilder: (context, child) {
+        return Positioned(
+          left: 16.0.w,
+          bottom: 70.0.h,
+          right: 16.0.w,
+          child: child,
+        );
+      },
+    );
+  }
+
+  Widget _createToast({required String message}) {
+    return Container(
+      padding: REdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0).r,
+        color: Colors.black,
+      ),
+      child: Text(
+        message,
+        style: TextStyle(fontSize: 18.0.sp, color: Colors.white, fontWeight: FontWeight.w700),
+      ),
+    );
   }
 
   void _pushTabataView(BuildContext context) async {

@@ -4,7 +4,6 @@ import 'package:tabata_timer/common/extension/int_to_time.dart';
 import 'package:tabata_timer/domain/model/tabata.dart';
 import 'package:tabata_timer/domain/model/tabata_element.dart';
 import 'package:tabata_timer/domain/usecases/shared_preferences_use_case.dart';
-import 'package:tabata_timer/main.dart';
 
 final class HomeViewModel with ChangeNotifier {
   final SharedPreferencesUseCase _useCase;
@@ -104,99 +103,107 @@ final class HomeViewModel with ChangeNotifier {
     }
   }
 
-  void increase({required TabataElement element}) {
-    switch (element) {
-      case TabataElement.preparationTime:
-        _tabata = _tabata.copyWith(preparationSeconds: _tabata.preparationSeconds + 1);
-        break;
-      case TabataElement.cycle:
-        _tabata = _tabata.copyWith(cycleCount: _tabata.cycleCount + 1);
-        break;
-      case TabataElement.cycleBreakTime:
-        _tabata = _tabata.copyWith(cycleBreakSeconds: _tabata.cycleBreakSeconds + 1);
-        break;
-      case TabataElement.round:
-        _tabata = _tabata.copyWith(roundCount: _tabata.roundCount + 1);
-        break;
-      case TabataElement.exerciseTime:
-        _tabata = _tabata.copyWith(exerciseSeconds: _tabata.exerciseSeconds + 1);
-        break;
-      case TabataElement.breakTime:
-        _tabata = _tabata.copyWith(breakSeconds: _tabata.breakSeconds + 1);
-        break;
+  void increase({required TabataElement element, required Function(String) onError}) {
+    try {
+      switch (element) {
+        case TabataElement.preparationTime:
+          _tabata = _tabata.copyWith(preparationSeconds: _tabata.preparationSeconds + 1);
+          break;
+        case TabataElement.cycle:
+          _tabata = _tabata.copyWith(cycleCount: _tabata.cycleCount + 1);
+          break;
+        case TabataElement.cycleBreakTime:
+          _tabata = _tabata.copyWith(cycleBreakSeconds: _tabata.cycleBreakSeconds + 1);
+          break;
+        case TabataElement.round:
+          _tabata = _tabata.copyWith(roundCount: _tabata.roundCount + 1);
+          break;
+        case TabataElement.exerciseTime:
+          _tabata = _tabata.copyWith(exerciseSeconds: _tabata.exerciseSeconds + 1);
+          break;
+        case TabataElement.breakTime:
+          _tabata = _tabata.copyWith(breakSeconds: _tabata.breakSeconds + 1);
+          break;
+      }
+      save();
+      notifyListeners();
+    } catch (e) {
+      onError('해당 값을 더 증가할 수 없습니다.');
     }
-    save();
-    notifyListeners();
   }
 
-  void decrease({required TabataElement element}) {
-    switch (element) {
-      case TabataElement.preparationTime:
-        _tabata = _tabata.copyWith(preparationSeconds: _tabata.preparationSeconds - 1);
-        break;
-      case TabataElement.cycle:
-        _tabata = _tabata.copyWith(cycleCount: _tabata.cycleCount - 1);
-        break;
-      case TabataElement.cycleBreakTime:
-        _tabata = _tabata.copyWith(cycleBreakSeconds: _tabata.cycleBreakSeconds - 1);
-        break;
-      case TabataElement.round:
-        _tabata = _tabata.copyWith(roundCount: _tabata.roundCount - 1);
-        break;
-      case TabataElement.exerciseTime:
-        _tabata = _tabata.copyWith(exerciseSeconds: _tabata.exerciseSeconds - 1);
-        break;
-      case TabataElement.breakTime:
-        _tabata = _tabata.copyWith(breakSeconds: _tabata.breakSeconds - 1);
-        break;
+  void decrease({required TabataElement element, required Function(String) onError}) {
+    try {
+      switch (element) {
+        case TabataElement.preparationTime:
+          _tabata = _tabata.copyWith(preparationSeconds: _tabata.preparationSeconds - 1);
+          break;
+        case TabataElement.cycle:
+          _tabata = _tabata.copyWith(cycleCount: _tabata.cycleCount - 1);
+          break;
+        case TabataElement.cycleBreakTime:
+          _tabata = _tabata.copyWith(cycleBreakSeconds: _tabata.cycleBreakSeconds - 1);
+          break;
+        case TabataElement.round:
+          _tabata = _tabata.copyWith(roundCount: _tabata.roundCount - 1);
+          break;
+        case TabataElement.exerciseTime:
+          _tabata = _tabata.copyWith(exerciseSeconds: _tabata.exerciseSeconds - 1);
+          break;
+        case TabataElement.breakTime:
+          _tabata = _tabata.copyWith(breakSeconds: _tabata.breakSeconds - 1);
+          break;
+      }
+      save();
+      notifyListeners();
+    } catch (e) {
+      onError('해당 값을 더 감소할 수 없습니다.');
     }
-    save();
-    notifyListeners();
   }
 
   void updateCount(TabataElement element, {required int value, required Function(String message) onError}) {
-    if (value == 0) {
-      onError('횟 수의 최소 값은 1입니다.');
-      return;
+    try {
+      switch (element) {
+        case TabataElement.cycle:
+          _tabata = _tabata.copyWith(cycleCount: value);
+          break;
+        case TabataElement.round:
+          _tabata = _tabata.copyWith(roundCount: value);
+          break;
+        default:
+          throw Exception();
+      }
+      save();
+      notifyListeners();
+    } catch (e) {
+      onError('올바른 값을 입력해 주세요.');
     }
-    switch (element) {
-      case TabataElement.cycle:
-        _tabata = _tabata.copyWith(cycleCount: value);
-        break;
-      case TabataElement.round:
-        _tabata = _tabata.copyWith(roundCount: value);
-        break;
-      default:
-        throw Exception();
-    }
-    save();
-    notifyListeners();
   }
 
   void updateTime(TabataElement element, {required int minute, required int second, required Function(String message) onError}) {
-    final totalSeconds = (minute * 60) + second;
-    if (totalSeconds == 0) {
-      onError('시간의 최소 값은 1초 입니다.');
-      return;
+    try {
+      final totalSeconds = (minute * 60) + second;
+      switch (element) {
+        case TabataElement.preparationTime:
+          _tabata = _tabata.copyWith(preparationSeconds: totalSeconds);
+          break;
+        case TabataElement.cycleBreakTime:
+          _tabata = _tabata.copyWith(cycleBreakSeconds: totalSeconds);
+          break;
+        case TabataElement.exerciseTime:
+          _tabata = _tabata.copyWith(exerciseSeconds: totalSeconds);
+          break;
+        case TabataElement.breakTime:
+          _tabata = _tabata.copyWith(breakSeconds: totalSeconds);
+          break;
+        default:
+          throw Exception();
+      }
+      save();
+      notifyListeners();
+    } catch (e) {
+      onError('올바른 값을 입력해 주세요.');
     }
-    switch (element) {
-      case TabataElement.preparationTime:
-        _tabata = _tabata.copyWith(preparationSeconds: totalSeconds);
-        break;
-      case TabataElement.cycleBreakTime:
-        _tabata = _tabata.copyWith(cycleBreakSeconds: totalSeconds);
-        break;
-      case TabataElement.exerciseTime:
-        _tabata = _tabata.copyWith(exerciseSeconds: totalSeconds);
-        break;
-      case TabataElement.breakTime:
-        _tabata = _tabata.copyWith(breakSeconds: totalSeconds);
-        break;
-      default:
-        throw Exception();
-    }
-    save();
-    notifyListeners();
   }
 
   void load() async {
