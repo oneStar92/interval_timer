@@ -25,7 +25,7 @@ final class AudioManagerImpl implements AudioManager {
   void _setAudio() async {
     await Future.value(
       [
-        _ticktockPlayer.setAudioSource(AudioSource.asset('assets/audios/ticking.wav')),
+        _ticktockPlayer.setAudioSource(AudioSource.asset('assets/audios/ticktock.wav')),
         _ticktockPlayer.setLoopMode(LoopMode.one),
         _counterPlayer.setLoopMode(LoopMode.off),
         _statePlayer.setLoopMode(LoopMode.off),
