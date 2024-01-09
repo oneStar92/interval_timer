@@ -97,7 +97,13 @@ class HomeScreen extends StatelessWidget {
           child: CountPickerView(
             title: element.toString(),
             initValue: context.read<HomeViewModel>().getIntegerCountOf(element),
-            actionComplete: (value) => context.read<HomeViewModel>().updateCount(element, value: value),
+            actionComplete: (value) => context.read<HomeViewModel>().updateCount(
+              element,
+              value: value,
+              onError: (message) {
+                _showErrorSnackBar(context: context, message: message);
+              },
+            ),
             maximumCount: context.read<HomeViewModel>().getMaximumCountOf(element),
           ),
         );
@@ -116,14 +122,21 @@ class HomeScreen extends StatelessWidget {
             initMinute: context.read<HomeViewModel>().getIntegerMinuteOf(element),
             initSecond: context.read<HomeViewModel>().getIntegerSecondOf(element),
             actionComplete: (minute, second) => context.read<HomeViewModel>().updateTime(
-                  element,
-                  minute: minute,
-                  second: second,
-                ),
+              element,
+              minute: minute,
+              second: second,
+              onError: (message) {
+                _showErrorSnackBar(context: context, message: message);
+              },
+            ),
           ),
         );
       },
     );
+  }
+
+  void _showErrorSnackBar({required BuildContext context, required String message}) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
   void _pushTabataView(BuildContext context) async {

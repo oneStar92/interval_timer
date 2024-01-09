@@ -154,7 +154,11 @@ final class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateCount(TabataElement element, {required int value}) {
+  void updateCount(TabataElement element, {required int value, required Function(String message) onError}) {
+    if (value == 0) {
+      onError('횟 수의 최소 값은 1입니다.');
+      return;
+    }
     switch (element) {
       case TabataElement.cycle:
         _tabata = _tabata.copyWith(cycleCount: value);
@@ -169,19 +173,24 @@ final class HomeViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateTime(TabataElement element, {required int minute, required int second}) {
+  void updateTime(TabataElement element, {required int minute, required int second, required Function(String message) onError}) {
+    final totalSeconds = (minute * 60) + second;
+    if (totalSeconds == 0) {
+      onError('시간의 최소 값은 1초 입니다.');
+      return;
+    }
     switch (element) {
       case TabataElement.preparationTime:
-        _tabata = _tabata.copyWith(preparationSeconds: (minute * 60) + second);
+        _tabata = _tabata.copyWith(preparationSeconds: totalSeconds);
         break;
       case TabataElement.cycleBreakTime:
-        _tabata = _tabata.copyWith(cycleBreakSeconds: (minute * 60) + second);
+        _tabata = _tabata.copyWith(cycleBreakSeconds: totalSeconds);
         break;
       case TabataElement.exerciseTime:
-        _tabata = _tabata.copyWith(exerciseSeconds: (minute * 60) + second);
+        _tabata = _tabata.copyWith(exerciseSeconds: totalSeconds);
         break;
       case TabataElement.breakTime:
-        _tabata = _tabata.copyWith(breakSeconds: (minute * 60) + second);
+        _tabata = _tabata.copyWith(breakSeconds: totalSeconds);
         break;
       default:
         throw Exception();
