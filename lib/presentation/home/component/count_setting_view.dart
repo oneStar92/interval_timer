@@ -51,8 +51,8 @@ class CountSettingView<T extends ChangeNotifier> extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20.w,
-            width: 20.w,
+            height: 32.w,
+            width: 32.w,
             child: IconButtonHolder(
               icon: Icons.remove,
               onClick: _actionDecrease,
@@ -72,8 +72,8 @@ class CountSettingView<T extends ChangeNotifier> extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20.w,
-            width: 20.w,
+            height: 32.w,
+            width: 32.w,
             child: IconButtonHolder(
               icon: Icons.add,
               onClick: _actionIncrease,

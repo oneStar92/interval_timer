@@ -52,8 +52,8 @@ class TimeSettingView<T extends ChangeNotifier> extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20.w,
-            width: 20.w,
+            height: 32.w,
+            width: 32.w,
             child: IconButtonHolder(
               icon: Icons.remove,
               onClick: _actionDecrease,
@@ -61,7 +61,7 @@ class TimeSettingView<T extends ChangeNotifier> extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 160.w,
+            width: 150.w,
             child: TimerViewHolder(
               onClick: _showTimerPicker,
               selector: _timeSelector,
@@ -73,8 +73,8 @@ class TimeSettingView<T extends ChangeNotifier> extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 20.w,
-            width: 20.w,
+            height: 32.w,
+            width: 32.w,
             child: IconButtonHolder(
               icon: Icons.add,
               onClick: _actionIncrease,
