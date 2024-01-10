@@ -1,10 +1,12 @@
 typedef RemainingCount = ({String current, String max});
 typedef Time = ({String minute, String second});
 
+const int minimum = 1;
 const int maximumCycleCount = 10;
 const int maximumRoundCount = 20;
 const int maximumMinute = 60;
 const int maximumSeconds = 60;
+const int maximumTotalSeconds = 3599;
 
 const String appTitle = '타바타';
 const String exerciseButtonTitle = '운동 시작';
